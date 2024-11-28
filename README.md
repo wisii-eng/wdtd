@@ -2,6 +2,7 @@
 
 #### 介绍
 汇智互联表单设计器
+源码正在整理中，可以先下载已经打包好的产品，下载地址：[https://www.wisii.com/wp-content/download/designer.zip](https://www.wisii.com/wp-content/download/designer.zip)
 
 #### 软件架构
 软件架构说明
