@@ -1,0 +1,1486 @@
+<xsl:template name="dateTime">
+		<xsl:param name="inputFormat" select="''"/>
+		<!--输入格式-->
+		<xsl:param name="inputDate" select="''"/>
+		<!--输入数据-->
+		<xsl:param name="separatorOne" select="''"/>
+		<!--第一分隔符-->
+		<xsl:param name="separatorTwo" select="''"/>
+		<!--第二分隔符-->
+		<xsl:param name="separatorThree" select="''"/>
+		<!--第三分隔符-->
+		<xsl:param name="separatorFour" select="''"/>
+		<!--第四分隔符-->
+		<xsl:param name="separatorFive" select="''"/>
+		<!--第五分隔符-->
+		<xsl:param name="separatorSix" select="''"/>
+		<!--第六分隔符-->
+		<xsl:param name="separatorDateTime" select="' '"/>
+		<!--日期和时间之间的分隔符-->
+		<xsl:param name="error" select="'Date wrong!'"/>
+		<!--错误提示信息-->
+		<xsl:variable name="realinputDate" select="normalize-space($inputDate)"/>
+		<xsl:choose>
+			<xsl:when test="contains($realinputDate,$separatorDateTime)">
+				<xsl:variable name="date" select="substring-before($realinputDate,$separatorDateTime)"/>
+				<xsl:variable name="time" select="substring-after($realinputDate,$separatorDateTime)"/>
+				<xsl:variable name="dateFormat" select="concat(substring-before($inputFormat,';'),';')"/>
+				<xsl:variable name="timeFormat" select="substring-after($inputFormat,';')"/>
+				<xsl:variable name="formatdate">
+					<xsl:call-template name="dealdate">
+						<xsl:with-param name="inputFormat" select="$dateFormat"/>
+						<xsl:with-param name="inputDate" select="$date"/>
+						<xsl:with-param name="separatorOne" select="$separatorOne"/>
+						<xsl:with-param name="separatorTwo" select="$separatorTwo"/>
+						<xsl:with-param name="separatorThree" select="$separatorThree"/>
+						<xsl:with-param name="error" select="$error"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:variable name="formattime">
+					<xsl:call-template name="dealtime">
+						<xsl:with-param name="inputFormat" select="$timeFormat"/>
+						<xsl:with-param name="inputDate" select="$time"/>
+						<xsl:with-param name="separatorOne" select="$separatorFour"/>
+						<xsl:with-param name="separatorTwo" select="$separatorFive"/>
+						<xsl:with-param name="separatorThree" select="$separatorSix"/>
+						<xsl:with-param name="error" select="$error"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="($formatdate!=$error)and($formattime!=$error)">
+						<xsl:value-of select="concat($formatdate,$formattime)"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$error"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="substring($inputFormat,1,1)='Y' or substring($inputFormat,1,1)='M' or substring($inputFormat,1,1)='D'">
+						<xsl:call-template name="dealdate">
+							<xsl:with-param name="inputFormat" select="$inputFormat"/>
+							<xsl:with-param name="inputDate" select="$realinputDate"/>
+							<xsl:with-param name="separatorOne" select="$separatorOne"/>
+							<xsl:with-param name="separatorTwo" select="$separatorTwo"/>
+							<xsl:with-param name="separatorThree" select="$separatorThree"/>
+							<xsl:with-param name="error" select="$error"/>
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:when test="substring($inputFormat,1,1)='h' or substring($inputFormat,1,1)='m' or substring($inputFormat,1,1)='s'">
+						<xsl:call-template name="dealtime">
+							<xsl:with-param name="inputFormat" select="$inputFormat"/>
+							<xsl:with-param name="inputDate" select="$realinputDate"/>
+							<xsl:with-param name="separatorOne" select="$separatorOne"/>
+							<xsl:with-param name="separatorTwo" select="$separatorTwo"/>
+							<xsl:with-param name="separatorThree" select="$separatorThree"/>
+							<xsl:with-param name="error" select="$error"/>
+						</xsl:call-template>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="dealdate">
+		<xsl:param name="inputFormat" select="''"/>
+		<xsl:param name="inputDate" select="''"/>
+		<xsl:param name="separatorOne" select="''"/>
+		<xsl:param name="separatorTwo" select="''"/>
+		<xsl:param name="separatorThree" select="''"/>
+		<xsl:param name="error" select="'Date wrong!'"/>
+		<!--错误提示信息-->
+		<xsl:variable name="realinputDate" select="normalize-space($inputDate)"/>
+		<xsl:choose>
+			<xsl:when test="string-length($inputFormat)&gt;0 and string-length($realinputDate)&gt;0">
+				<xsl:variable name="realInput" select="normalize-space($inputFormat)"/>
+				<xsl:variable name="strOne">
+					<xsl:choose>
+						<xsl:when test="contains($realInput,',')">
+							<xsl:value-of select="substring-before($realInput,',')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring-before($realInput,';')"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strOneOther">
+					<xsl:choose>
+						<xsl:when test="contains($realInput,',')">
+							<xsl:value-of select="substring-after($realInput,',')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="''"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strTwo">
+					<xsl:choose>
+						<xsl:when test="contains($strOneOther,',')">
+							<xsl:value-of select="substring-before($strOneOther,',')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:if test="contains($strOneOther,';')">
+								<xsl:value-of select="substring-before($strOneOther,';')"/>
+							</xsl:if>
+							<xsl:if test="not(contains($strOneOther,';'))">
+								<xsl:value-of select="''"/>
+							</xsl:if>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strTwoOther">
+					<xsl:choose>
+						<xsl:when test="contains($strOneOther,',')">
+							<xsl:value-of select="substring-after($strOneOther,',')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="''"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strThree">
+					<xsl:choose>
+						<xsl:when test="contains($strTwoOther,';')">
+							<xsl:value-of select="substring-before($strTwoOther,';')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="''"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strOneLength" select="string-length($strOne)"/>
+				<xsl:variable name="strTwoLength" select="string-length($strTwo)"/>
+				<xsl:variable name="strThreeLength" select="string-length($strThree)"/>
+				<xsl:variable name="strOneDate">
+					<xsl:choose>
+						<xsl:when test="not($separatorOne='')">
+							<xsl:value-of select="substring-before($realinputDate,$separatorOne)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:choose>
+								<xsl:when test="$strOneLength &gt; 1">
+									<xsl:value-of select="substring($realinputDate,1,$strOneLength)"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:variable name="a" select="string-length($realinputDate)"/>
+									<xsl:variable name="b" select="($a)-($strTwoLength)-($strThreeLength)"/>
+									<xsl:value-of select="substring($realinputDate,1,$b)"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strTwoDate">
+					<xsl:choose>
+						<xsl:when test="not($separatorTwo='')">
+							<xsl:value-of select="substring-before(substring-after($realinputDate,concat($strOneDate,$separatorOne)),$separatorTwo)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:if test="$strTwoLength &gt;1">
+								<xsl:value-of select="substring(substring-after($realinputDate,concat($strOneDate,$separatorOne)),1,$strTwoLength)"/>
+							</xsl:if>
+							<xsl:if test="$strTwoLength &lt;=1">
+								<xsl:variable name="oneother" select="substring-after($realinputDate,concat($strOneDate,$separatorOne))"/>
+								<xsl:value-of select="substring($oneother,1,string-length($oneother)-$strThreeLength)"/>
+							</xsl:if>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strThreeDate">
+					<xsl:if test="not($separatorThree='')">
+						<xsl:value-of select="substring-before(substring-after($realinputDate,concat($strOneDate,$separatorOne,$strTwoDate,$separatorTwo)),$separatorThree)"/>
+					</xsl:if>
+					<xsl:if test="$separatorThree=''">
+						<xsl:value-of select="substring-after($realinputDate,concat($strOneDate,$separatorOne,$strTwoDate,$separatorTwo))"/>
+					</xsl:if>
+				</xsl:variable>
+				<xsl:call-template name="selectDate">
+					<xsl:with-param name="strOne" select="$strOne"/>
+					<xsl:with-param name="dateOne" select="$strOneDate"/>
+					<xsl:with-param name="strTwo" select="$strTwo"/>
+					<xsl:with-param name="dateTwo" select="$strTwoDate"/>
+					<xsl:with-param name="strThree" select="$strThree"/>
+					<xsl:with-param name="dateThree" select="$strThreeDate"/>
+					<xsl:with-param name="error" select="$error"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$error"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="selectDate">
+		<xsl:param name="strOne"/>
+		<xsl:param name="dateOne"/>
+		<xsl:param name="strTwo"/>
+		<xsl:param name="dateTwo"/>
+		<xsl:param name="strThree"/>
+		<xsl:param name="dateThree"/>
+		<xsl:param name="error" select="'Date wrong!'"/>
+		<!--错误提示信息-->
+		<xsl:variable name="ongFlg">
+			<xsl:choose>
+				<xsl:when test="string-length($strOne)=string-length($dateOne)">
+					<xsl:value-of select="'true'"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:choose>
+						<xsl:when test="(string-length($strOne)=string-length($dateOne) -1)and(string-length($strOne)=1)">
+							<xsl:value-of select="'true'"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'false'"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="twoFlg">
+			<xsl:choose>
+				<xsl:when test="string-length($strTwo)=string-length($dateTwo)">
+					<xsl:value-of select="'true'"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:choose>
+						<xsl:when test="(string-length($strTwo)=string-length($dateTwo) -1)and(string-length($strTwo)=1)">
+							<xsl:value-of select="'true'"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'false'"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="threeFlg">
+			<xsl:choose>
+				<xsl:when test="string-length($strThree)=string-length($dateThree)">
+					<xsl:value-of select="'true'"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:choose>
+						<xsl:when test="(string-length($strThree)=string-length($dateThree) -1)and(string-length($strThree)=1)">
+							<xsl:value-of select="'true'"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'false'"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$ongFlg='true'and $twoFlg='true' and $threeFlg='true'">
+				<xsl:variable name="year">
+					<xsl:choose>
+						<xsl:when test="substring($strOne,1,1)='Y'">
+							<xsl:if test="string-length($strOne)=4">
+								<xsl:value-of select="$dateOne"/>
+							</xsl:if>
+							<xsl:if test="string-length($strOne)=2">
+								<xsl:value-of select="concat('20',$dateOne)"/>
+							</xsl:if>
+						</xsl:when>
+						<xsl:when test="substring($strTwo,1,1)='Y'">
+							<xsl:if test="string-length($strTwo)=4">
+								<xsl:value-of select="$dateTwo"/>
+							</xsl:if>
+							<xsl:if test="string-length($strTwo)=2">
+								<xsl:value-of select="concat('20',$dateTwo)"/>
+							</xsl:if>
+						</xsl:when>
+						<xsl:when test="substring($strThree,1,1)='Y'">
+							<xsl:if test="string-length($strThree)=4">
+								<xsl:value-of select="$dateThree"/>
+							</xsl:if>
+							<xsl:if test="string-length($strThree)=2">
+								<xsl:value-of select="concat('20',$dateThree)"/>
+							</xsl:if>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="month">
+					<xsl:choose>
+						<xsl:when test="substring($strOne,1,1)='M'">
+							<xsl:value-of select="$dateOne"/>
+						</xsl:when>
+						<xsl:when test="substring($strTwo,1,1)='M'">
+							<xsl:value-of select="$dateTwo"/>
+						</xsl:when>
+						<xsl:when test="substring($strThree,1,1)='M'">
+							<xsl:value-of select="$dateThree"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="day">
+					<xsl:choose>
+						<xsl:when test="substring($strOne,1,1)='D'">
+							<xsl:value-of select="$dateOne"/>
+						</xsl:when>
+						<xsl:when test="substring($strTwo,1,1)='D'">
+							<xsl:value-of select="$dateTwo"/>
+						</xsl:when>
+						<xsl:when test="substring($strThree,1,1)='D'">
+							<xsl:value-of select="$dateThree"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="dateOk">
+					<xsl:call-template name="Date_Check">
+						<xsl:with-param name="year" select="$year"/>
+						<xsl:with-param name="month" select="$month"/>
+						<xsl:with-param name="day" select="$day"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="$dateOk='true'">
+						<xsl:value-of select="concat($year,',',$month,',',$day,',')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$error"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$error"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="selectTime">
+		<xsl:param name="strOne"/>
+		<xsl:param name="dateOne"/>
+		<xsl:param name="strTwo"/>
+		<xsl:param name="dateTwo"/>
+		<xsl:param name="strThree"/>
+		<xsl:param name="dateThree"/>
+		<xsl:param name="error" select="'Date wrong!'"/>
+		<!--错误提示信息-->
+		<xsl:variable name="ongFlg">
+			<xsl:if test="string-length($strOne)=string-length($dateOne)">
+				<xsl:value-of select="'true'"/>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:variable name="twoFlg">
+			<xsl:if test="string-length($strTwo)=string-length($dateTwo)">
+				<xsl:value-of select="'true'"/>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:variable name="threeFlg">
+			<xsl:if test="string-length($strThree)=string-length($dateThree)">
+				<xsl:value-of select="'true'"/>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$ongFlg='true'and $twoFlg='true' and $threeFlg='true'">
+				<xsl:variable name="hours">
+					<xsl:choose>
+						<xsl:when test="substring($strOne,1,1)='h'">
+							<xsl:value-of select="$dateOne"/>
+						</xsl:when>
+						<xsl:when test="substring($strTwo,1,1)='h'">
+							<xsl:value-of select="$dateTwo"/>
+						</xsl:when>
+						<xsl:when test="substring($strThree,1,1)='h'">
+							<xsl:value-of select="$dateThree"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="minutes">
+					<xsl:choose>
+						<xsl:when test="substring($strOne,1,1)='m'">
+							<xsl:value-of select="$dateOne"/>
+						</xsl:when>
+						<xsl:when test="substring($strTwo,1,1)='m'">
+							<xsl:value-of select="$dateTwo"/>
+						</xsl:when>
+						<xsl:when test="substring($strThree,1,1)='m'">
+							<xsl:value-of select="$dateThree"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="seconds">
+					<xsl:choose>
+						<xsl:when test="substring($strOne,1,1)='s'">
+							<xsl:value-of select="$dateOne"/>
+						</xsl:when>
+						<xsl:when test="substring($strTwo,1,1)='s'">
+							<xsl:value-of select="$dateTwo"/>
+						</xsl:when>
+						<xsl:when test="substring($strThree,1,1)='s'">
+							<xsl:value-of select="$dateThree"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="timeOk">
+					<xsl:call-template name="Time_Check">
+						<xsl:with-param name="hours" select="$hours"/>
+						<xsl:with-param name="minutes" select="$minutes"/>
+						<xsl:with-param name="seconds" select="$seconds"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="$timeOk='true'">
+						<xsl:value-of select="concat($hours,',',$minutes,',',$seconds,',')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$error"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$error"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="Date_Check">
+		<xsl:param name="year"/>
+		<xsl:param name="month"/>
+		<xsl:param name="day"/>
+		<xsl:choose>
+			<xsl:when test="$year&lt;0 or not(string-length(string($year))=4)">
+				<xsl:value-of select="'false'"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="($month&lt;0)or($month&gt;12)">
+						<xsl:value-of select="'false'"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:variable name="month_node" select="$doc/fov:months/month[position()=number($month)]/@length"/>
+						<xsl:choose>
+							<xsl:when test="($day)&gt;($month_node)">
+								<xsl:value-of select="'false'"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:choose>
+									<xsl:when test="$month=2">
+										<xsl:choose>
+											<xsl:when test="$day&lt;29">
+												<xsl:value-of select="'true'"/>
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:variable name="year4" select="$year mod 4"/>
+												<xsl:variable name="year100" select="$year mod 100"/>
+												<xsl:variable name="year400" select="$year mod 400"/>
+												<xsl:choose>
+													<xsl:when test="(($year4)=0)and($day=29)">
+														<xsl:choose>
+															<xsl:when test="($year100)=0">
+																<xsl:choose>
+																	<xsl:when test="($year400)=0">
+																		<xsl:value-of select="'true'"/>
+																	</xsl:when>
+																	<xsl:otherwise>
+																		<xsl:value-of select="'false'"/>
+																	</xsl:otherwise>
+																</xsl:choose>
+															</xsl:when>
+															<xsl:otherwise>
+																<xsl:value-of select="'true'"/>
+															</xsl:otherwise>
+														</xsl:choose>
+														<xsl:value-of select="'true'"/>
+													</xsl:when>
+													<xsl:otherwise>
+														<xsl:value-of select="'false'"/>
+													</xsl:otherwise>
+												</xsl:choose>
+											</xsl:otherwise>
+										</xsl:choose>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="'true'"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="dealtime">
+		<xsl:param name="inputFormat"/>
+		<xsl:param name="inputDate"/>
+		<xsl:param name="separatorOne"/>
+		<xsl:param name="separatorTwo"/>
+		<xsl:param name="separatorThree"/>
+		<xsl:param name="error" select="'Date wrong!'"/>
+		<!--错误提示信息-->
+		<xsl:variable name="realinputDate" select="normalize-space($inputDate)"/>
+		<xsl:choose>
+			<xsl:when test="string-length($inputFormat)&gt;0 and string-length($inputDate)&gt;0">
+				<xsl:variable name="realInput" select="normalize-space($inputFormat)"/>
+				<xsl:variable name="strOne">
+					<xsl:choose>
+						<xsl:when test="contains($realInput,',')">
+							<xsl:value-of select="substring-before($realInput,',')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring-before($realInput,';')"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strOneOther">
+					<xsl:choose>
+						<xsl:when test="contains($realInput,',')">
+							<xsl:value-of select="substring-after($realInput,',')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="''"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strTwo">
+					<xsl:choose>
+						<xsl:when test="contains($strOneOther,',')">
+							<xsl:value-of select="substring-before($strOneOther,',')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:if test="contains($strOneOther,';')">
+								<xsl:value-of select="substring-before($strOneOther,';')"/>
+							</xsl:if>
+							<xsl:if test="not(contains($strOneOther,';'))">
+								<xsl:value-of select="''"/>
+							</xsl:if>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strTwoOther">
+					<xsl:choose>
+						<xsl:when test="contains($strOneOther,',')">
+							<xsl:value-of select="substring-after($strOneOther,',')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="''"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strThree">
+					<xsl:choose>
+						<xsl:when test="contains($strTwoOther,';')">
+							<xsl:value-of select="substring-before($strTwoOther,';')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="''"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strOneLength" select="string-length($strOne)"/>
+				<xsl:variable name="strTwoLength" select="string-length($strTwo)"/>
+				<xsl:variable name="strThreeLength" select="string-length($strThree)"/>
+				<xsl:variable name="strOneDate">
+					<xsl:choose>
+						<xsl:when test="not($separatorOne='')">
+							<xsl:value-of select="substring-before($realinputDate,$separatorOne)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring($realinputDate,1,$strOneLength)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strTwoDate">
+					<xsl:choose>
+						<xsl:when test="not($separatorTwo='')">
+							<xsl:value-of select="substring-before(substring-after($realinputDate,concat($strOneDate,$separatorOne)),$separatorTwo)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring(substring-after($realinputDate,concat($strOneDate,$separatorOne)),1,$strTwoLength)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="strThreeDate">
+					<xsl:if test="not($separatorThree='')">
+						<xsl:value-of select="substring-before(substring-after($realinputDate,concat($strOneDate,$separatorOne,$strTwoDate,$separatorTwo)),$separatorThree)"/>
+					</xsl:if>
+					<xsl:if test="$separatorThree=''">
+						<xsl:value-of select="substring-after($realinputDate,concat($strOneDate,$separatorOne,$strTwoDate,$separatorTwo))"/>
+					</xsl:if>
+				</xsl:variable>
+				<xsl:call-template name="selectTime">
+					<xsl:with-param name="strOne" select="$strOne"/>
+					<xsl:with-param name="dateOne" select="$strOneDate"/>
+					<xsl:with-param name="strTwo" select="$strTwo"/>
+					<xsl:with-param name="dateTwo" select="$strTwoDate"/>
+					<xsl:with-param name="strThree" select="$strThree"/>
+					<xsl:with-param name="dateThree" select="$strThreeDate"/>
+					<xsl:with-param name="error" select="$error"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$error"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="Time_Check">
+		<xsl:param name="hours"/>
+		<xsl:param name="minutes"/>
+		<xsl:param name="seconds"/>
+		<xsl:variable name="hoursflg">
+			<xsl:choose>
+				<xsl:when test="string-length(string($hours))=2">
+					<xsl:if test="($hours &gt;= 0)and($hours &lt; 24)">
+						<xsl:value-of select="'true'"/>
+					</xsl:if>
+				</xsl:when>
+				<xsl:when test="string-length(string($hours))=0">
+					<xsl:value-of select="'true'"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'false'"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="minutesflg">
+			<xsl:choose>
+				<xsl:when test="string-length(string($minutes))=2">
+					<xsl:if test="($minutes &gt;= 0)and($minutes &lt; 60)">
+						<xsl:value-of select="'true'"/>
+					</xsl:if>
+				</xsl:when>
+				<xsl:when test="string-length(string($minutes))=0">
+					<xsl:value-of select="'true'"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'false'"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="secondsflg">
+			<xsl:choose>
+				<xsl:when test="string-length(string($seconds))=2">
+					<xsl:if test="($seconds &gt;= 0)and($seconds &lt; 60)">
+						<xsl:value-of select="'true'"/>
+					</xsl:if>
+				</xsl:when>
+				<xsl:when test="string-length(string($seconds))=0">
+					<xsl:value-of select="'true'"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'false'"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="($hoursflg='true') and ($minutesflg='true') and ($secondsflg='true')">
+				<xsl:value-of select="'true'"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'false'"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="translate">
+		<xsl:param name="number"/>
+		<xsl:param name="flg"/>
+		<xsl:if test="string-length($number)&gt;0">
+			<xsl:variable name="value" select="substring($number,1,1)"/>
+			<xsl:choose>
+				<xsl:when test="$flg=2">
+					<xsl:value-of select="$num/fov:numbers/number[@value=substring($number,1,1)]/@chinesezero"/>
+				</xsl:when>
+				<xsl:when test="$flg=3">
+					<xsl:value-of select="$num/fov:numbers/number[@value=substring($number,1,1)]/@chineseO"/>
+				</xsl:when>
+				<xsl:when test="$flg=4">
+					<xsl:value-of select="$num/fov:numbers/number[@value=substring($number,1,1)]/@chineserenmingbi"/>
+				</xsl:when>
+			</xsl:choose>
+			<xsl:call-template name="translate">
+				<xsl:with-param name="number" select="substring($number,2)"/>
+				<xsl:with-param name="flg" select="$flg"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="translateshu">
+		<xsl:param name="number"/>
+		<xsl:param name="flg"/>
+		<xsl:param name="zeronum" select="'false'"/>
+		<xsl:param name="add" select="'true'"/>
+		<xsl:variable name="length" select="string-length($number)"/>
+		<xsl:if test="$length&gt;0">
+			<xsl:variable name="value" select="substring($number,1,1)"/>
+			<xsl:choose>
+				<xsl:when test="$flg=2">
+					<xsl:choose>
+						<xsl:when test="$value&gt;0">
+							<xsl:choose>
+								<xsl:when test="$value&gt;1">
+									<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chinesezero"/>
+								</xsl:when>
+								<xsl:when test="$value=1">
+									<xsl:choose>
+										<xsl:when test="$length=2">
+											<xsl:if test="$add='true'">
+												<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chinesezero"/>
+											</xsl:if>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chinesezero"/>
+										</xsl:otherwise>
+									</xsl:choose>
+								</xsl:when>
+							</xsl:choose>
+							<xsl:choose>
+								<xsl:when test="$length=1">
+									<xsl:value-of select="''"/>
+								</xsl:when>
+								<xsl:when test="$length=2">
+									<xsl:value-of select="$num/fov:numbers/number[@value=10]/@chinesezero"/>
+								</xsl:when>
+								<xsl:when test="$length=3">
+									<xsl:value-of select="$num/fov:numbers/number[@value=100]/@chinesezero"/>
+								</xsl:when>
+								<xsl:when test="$length=4">
+									<xsl:value-of select="$num/fov:numbers/number[@value=1000]/@chinesezero"/>
+								</xsl:when>
+							</xsl:choose>
+							<xsl:call-template name="translateshu">
+								<xsl:with-param name="number" select="substring($number,2)"/>
+								<xsl:with-param name="flg" select="$flg"/>
+								<xsl:with-param name="add" select="'true'"/>
+							</xsl:call-template>
+						</xsl:when>
+						<xsl:when test="$value=0">
+							<xsl:if test="$zeronum='false'">
+								<xsl:if test="$length&gt;1">
+									<xsl:value-of select="$num/fov:numbers/number[@value=0]/@chinesezero"/>
+								</xsl:if>
+							</xsl:if>
+							<xsl:call-template name="translateshu">
+								<xsl:with-param name="number" select="substring($number,2)"/>
+								<xsl:with-param name="flg" select="$flg"/>
+								<xsl:with-param name="zeronum" select="'true'"/>
+								<xsl:with-param name="add" select="'true'"/>
+							</xsl:call-template>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$flg=3">
+					<xsl:choose>
+						<xsl:when test="$value&gt;0">
+							<xsl:choose>
+								<xsl:when test="$value&gt;1">
+									<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chineseO"/>
+								</xsl:when>
+								<xsl:when test="$value=1">
+									<xsl:choose>
+										<xsl:when test="$length=2">
+											<xsl:if test="$add='true'">
+												<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chineseO"/>
+											</xsl:if>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chineseO"/>
+										</xsl:otherwise>
+									</xsl:choose>
+								</xsl:when>
+							</xsl:choose>
+							<xsl:choose>
+								<xsl:when test="$length=1">
+									<xsl:value-of select="''"/>
+								</xsl:when>
+								<xsl:when test="$length=2">
+									<xsl:value-of select="$num/fov:numbers/number[@value=10]/@chineseO"/>
+								</xsl:when>
+								<xsl:when test="$length=3">
+									<xsl:value-of select="$num/fov:numbers/number[@value=100]/@chineseO"/>
+								</xsl:when>
+								<xsl:when test="$length=4">
+									<xsl:value-of select="$num/fov:numbers/number[@value=1000]/@chineseO"/>
+								</xsl:when>
+							</xsl:choose>
+							<xsl:call-template name="translateshu">
+								<xsl:with-param name="number" select="substring($number,2)"/>
+								<xsl:with-param name="flg" select="$flg"/>
+								<xsl:with-param name="add" select="'true'"/>
+							</xsl:call-template>
+						</xsl:when>
+						<xsl:when test="$value=0">
+							<xsl:if test="$zeronum='false'">
+								<xsl:if test="$length&gt;1">
+									<xsl:value-of select="$num/fov:numbers/number[@value=0]/@chineseO"/>
+								</xsl:if>
+							</xsl:if>
+							<xsl:call-template name="translateshu">
+								<xsl:with-param name="number" select="substring($number,2)"/>
+								<xsl:with-param name="flg" select="$flg"/>
+								<xsl:with-param name="zeronum" select="'true'"/>
+								<xsl:with-param name="add" select="'true'"/>
+							</xsl:call-template>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$flg=4">
+					<xsl:choose>
+						<xsl:when test="$length=1">
+							<xsl:if test="$value&gt;0">
+								<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chineserenmingbi"/>
+							</xsl:if>
+						</xsl:when>
+						<xsl:when test="$length=2">
+							<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chineserenmingbi"/>
+							<xsl:if test="$value&gt;0">
+								<xsl:value-of select="$num/fov:numbers/number[@value=10]/@chineserenmingbi"/>
+							</xsl:if>
+							<xsl:call-template name="translateshu">
+								<xsl:with-param name="number" select="substring($number,2)"/>
+								<xsl:with-param name="flg" select="$flg"/>
+								<xsl:with-param name="add" select="'true'"/>
+							</xsl:call-template>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="showDate">
+		<xsl:param name="date"/>
+		<xsl:param name="formatOne" select="''"/>
+		<xsl:param name="formatTwo" select="''"/>
+		<xsl:param name="formatThree" select="''"/>
+		<xsl:param name="formatFour" select="''"/>
+		<xsl:param name="formatFive" select="''"/>
+		<xsl:param name="formatSix" select="''"/>
+		<xsl:param name="separatorOne" select="''"/>
+		<xsl:param name="separatorTwo" select="''"/>
+		<xsl:param name="separatorThree" select="''"/>
+		<xsl:param name="separatorFour" select="''"/>
+		<xsl:param name="separatorFive" select="''"/>
+		<xsl:param name="separatorSix" select="''"/>
+		<xsl:param name="error" select="'Date wrong!'"/>
+		<!--错误提示信息-->
+		<xsl:if test="$date!=$error">
+			<xsl:variable name="one" select="substring-before($date,',')"/>
+			<xsl:variable name="oneOther" select="substring-after($date,',')"/>
+			<xsl:variable name="two">
+				<xsl:choose>
+					<xsl:when test="string-length($oneOther)&gt;0">
+						<xsl:value-of select="substring-before($oneOther,',')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="''"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="twoOther" select="substring-after($oneOther,',')"/>
+			<xsl:variable name="three">
+				<xsl:choose>
+					<xsl:when test="string-length($twoOther)&gt;0">
+						<xsl:value-of select="substring-before($twoOther,',')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="''"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="threeOther" select="substring-after($twoOther,',')"/>
+			<xsl:variable name="four">
+				<xsl:choose>
+					<xsl:when test="string-length($threeOther)&gt;0">
+						<xsl:value-of select="substring-before($threeOther,',')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="''"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="fourOther" select="substring-after($threeOther,',')"/>
+			<xsl:variable name="five">
+				<xsl:choose>
+					<xsl:when test="string-length($fourOther)&gt;0">
+						<xsl:value-of select="substring-before($fourOther,',')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="''"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="six">
+				<xsl:value-of select="substring-before(substring-after($fourOther,','),',')"/>
+			</xsl:variable>
+			<xsl:variable name="year">
+				<xsl:choose>
+					<xsl:when test="string-length($one)=4">
+						<xsl:value-of select="$one"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="''"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="month">
+				<xsl:choose>
+					<xsl:when test="string-length($one)=4">
+						<xsl:value-of select="$two"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="''"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="day">
+				<xsl:choose>
+					<xsl:when test="string-length($one)=4">
+						<xsl:value-of select="$three"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="''"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="hours">
+				<xsl:choose>
+					<xsl:when test="string-length($one)=4">
+						<xsl:value-of select="$four"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$one"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="minutes">
+				<xsl:choose>
+					<xsl:when test="string-length($one)=4">
+						<xsl:value-of select="$five"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$two"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="seconds">
+				<xsl:choose>
+					<xsl:when test="string-length($one)=4">
+						<xsl:value-of select="$six"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$three"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:choose>
+				<xsl:when test="(not($one=$error) and not($two=$error) and not($three=$error)  and (string-length($date)&gt;0))or(not($four=$error) and not($five=$error) and not($six=$error) and (string-length($date)&gt;0))">
+					<xsl:if test="not($formatOne='')">
+						<xsl:call-template name="showOneDate">
+							<xsl:with-param name="format" select="$formatOne"/>
+							<xsl:with-param name="year" select="$year"/>
+							<xsl:with-param name="month" select="$month"/>
+							<xsl:with-param name="day" select="$day"/>
+							<xsl:with-param name="hours" select="$hours"/>
+							<xsl:with-param name="minutes" select="$minutes"/>
+							<xsl:with-param name="seconds" select="$seconds"/>
+						</xsl:call-template>
+						<xsl:value-of select="$separatorOne"/>
+					</xsl:if>
+					<xsl:if test="not($formatTwo='')">
+						<xsl:call-template name="showOneDate">
+							<xsl:with-param name="format" select="$formatTwo"/>
+							<xsl:with-param name="year" select="$year"/>
+							<xsl:with-param name="month" select="$month"/>
+							<xsl:with-param name="day" select="$day"/>
+							<xsl:with-param name="hours" select="$hours"/>
+							<xsl:with-param name="minutes" select="$minutes"/>
+							<xsl:with-param name="seconds" select="$seconds"/>
+						</xsl:call-template>
+						<xsl:value-of select="$separatorTwo"/>
+					</xsl:if>
+					<xsl:if test="not($formatThree='')">
+						<xsl:call-template name="showOneDate">
+							<xsl:with-param name="format" select="$formatThree"/>
+							<xsl:with-param name="year" select="$year"/>
+							<xsl:with-param name="month" select="$month"/>
+							<xsl:with-param name="day" select="$day"/>
+							<xsl:with-param name="hours" select="$hours"/>
+							<xsl:with-param name="minutes" select="$minutes"/>
+							<xsl:with-param name="seconds" select="$seconds"/>
+						</xsl:call-template>
+						<xsl:value-of select="$separatorThree"/>
+					</xsl:if>
+					<xsl:if test="not($formatFour='')">
+						<xsl:call-template name="showOneDate">
+							<xsl:with-param name="format" select="$formatFour"/>
+							<xsl:with-param name="year" select="$year"/>
+							<xsl:with-param name="month" select="$month"/>
+							<xsl:with-param name="day" select="$day"/>
+							<xsl:with-param name="hours" select="$hours"/>
+							<xsl:with-param name="minutes" select="$minutes"/>
+							<xsl:with-param name="seconds" select="$seconds"/>
+						</xsl:call-template>
+						<xsl:value-of select="$separatorFour"/>
+					</xsl:if>
+					<xsl:if test="not($formatFive='')">
+						<xsl:call-template name="showOneDate">
+							<xsl:with-param name="format" select="$formatFive"/>
+							<xsl:with-param name="year" select="$year"/>
+							<xsl:with-param name="month" select="$month"/>
+							<xsl:with-param name="day" select="$day"/>
+							<xsl:with-param name="hours" select="$hours"/>
+							<xsl:with-param name="minutes" select="$minutes"/>
+							<xsl:with-param name="seconds" select="$seconds"/>
+						</xsl:call-template>
+						<xsl:value-of select="$separatorFive"/>
+					</xsl:if>
+					<xsl:if test="not($formatSix='')">
+						<xsl:call-template name="showOneDate">
+							<xsl:with-param name="format" select="$formatSix"/>
+							<xsl:with-param name="year" select="$year"/>
+							<xsl:with-param name="month" select="$month"/>
+							<xsl:with-param name="day" select="$day"/>
+							<xsl:with-param name="hours" select="$hours"/>
+							<xsl:with-param name="minutes" select="$minutes"/>
+							<xsl:with-param name="seconds" select="$seconds"/>
+						</xsl:call-template>
+						<xsl:value-of select="$separatorSix"/>
+					</xsl:if>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$error"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+		<xsl:if test="$date=$error">
+			<xsl:value-of select="$error"/>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="showOneDate">
+		<xsl:param name="format"/>
+		<xsl:param name="year"/>
+		<xsl:param name="month"/>
+		<xsl:param name="day"/>
+		<xsl:param name="hours"/>
+		<xsl:param name="minutes"/>
+		<xsl:param name="seconds"/>
+		<xsl:variable name="flg" select="substring-before($format,',')"/>
+		<xsl:choose>
+			<xsl:when test="$flg=1">
+				<xsl:call-template name="showYear">
+					<xsl:with-param name="format" select="substring-after($format,',')"/>
+					<xsl:with-param name="date" select="$year"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$flg=2">
+				<xsl:call-template name="showMonth">
+					<xsl:with-param name="format" select="substring-after($format,',')"/>
+					<xsl:with-param name="date" select="$month"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$flg=3">
+				<xsl:call-template name="showDay">
+					<xsl:with-param name="format" select="substring-after($format,',')"/>
+					<xsl:with-param name="date" select="$day"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$flg=4">
+				<xsl:call-template name="showHours">
+					<xsl:with-param name="format" select="substring-after($format,',')"/>
+					<xsl:with-param name="date" select="$hours"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$flg=5">
+				<xsl:call-template name="showMinutes">
+					<xsl:with-param name="format" select="substring-after($format,',')"/>
+					<xsl:with-param name="date" select="$minutes"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$flg=6">
+				<xsl:call-template name="showSeconds">
+					<xsl:with-param name="format" select="substring-after($format,',')"/>
+					<xsl:with-param name="date" select="$seconds"/>
+				</xsl:call-template>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="showYear">
+		<xsl:param name="format"/>
+		<xsl:param name="date"/>
+		<xsl:variable name="dateFlg" select="substring-before($format,',')"/>
+		<xsl:variable name="realDate">
+			<xsl:choose>
+				<xsl:when test="$dateFlg=0">
+					<xsl:value-of select="$date"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=1">
+					<xsl:value-of select="substring($date,1,1)"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=2">
+					<xsl:value-of select="substring($date,2,1)"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=3">
+					<xsl:value-of select="substring($date,3,1)"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=4">
+					<xsl:value-of select="substring($date,4,1)"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=5">
+					<xsl:value-of select="substring($date,1,2)"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=6">
+					<xsl:value-of select="substring($date,2,2)"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=7">
+					<xsl:value-of select="substring($date,3,2)"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=8">
+					<xsl:value-of select="substring($date,1,3)"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=9">
+					<xsl:value-of select="substring($date,2,3)"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="style" select="substring-after($format,',')"/>
+		<xsl:choose>
+			<xsl:when test="$style=1">
+				<xsl:value-of select="$realDate"/>
+			</xsl:when>
+			<xsl:when test="$style=2 or $style=3">
+				<xsl:call-template name="translate">
+					<xsl:with-param name="number" select="$realDate"/>
+					<xsl:with-param name="flg" select="$style"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$style=4">
+				<xsl:call-template name="translate">
+					<xsl:with-param name="number" select="$realDate"/>
+					<xsl:with-param name="flg" select="$style"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$style=5">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=6">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=7">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=8">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="showMonth">
+		<xsl:param name="format"/>
+		<xsl:param name="date"/>
+		<xsl:variable name="dateFlg" select="substring-before($format,',')"/>
+		<xsl:variable name="realDate">
+			<xsl:choose>
+				<xsl:when test="$dateFlg=1">
+					<xsl:choose>
+						<xsl:when test="string-length($date)=2 and substring($date,1,1)=0">
+							<xsl:value-of select="substring($date,2,1)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$date"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$dateFlg=2">
+					<xsl:if test="string-length($date)=2">
+						<xsl:value-of select="$date"/>
+					</xsl:if>
+					<xsl:if test="string-length($date)=1">
+						<xsl:value-of select="concat($date,'0')"/>
+					</xsl:if>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="style" select="substring-after($format,',')"/>
+		<xsl:variable name="showdate">
+			<xsl:choose>
+				<xsl:when test="string-length($realDate)=2 and substring($date,1,1)=0">
+					<xsl:value-of select="substring($realDate,2,1)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$realDate"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$style=1">
+				<xsl:value-of select="$realDate"/>
+			</xsl:when>
+			<xsl:when test="$style=2 or $style=3">
+				<xsl:call-template name="translateshu">
+					<xsl:with-param name="number" select="$showdate"/>
+					<xsl:with-param name="flg" select="$style"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$style=4">
+				<xsl:call-template name="translateshu">
+					<xsl:with-param name="number" select="$realDate"/>
+					<xsl:with-param name="flg" select="$style"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$style=5">
+				<xsl:value-of select="$doc/fov:months/month[position()=$showdate]/@smallall"/>
+			</xsl:when>
+			<xsl:when test="$style=6">
+				<xsl:value-of select="$doc/fov:months/month[position()=$showdate]"/>
+			</xsl:when>
+			<xsl:when test="$style=7">
+				<xsl:value-of select="$doc/fov:months/month[position()=$showdate]/@smallsingle"/>
+			</xsl:when>
+			<xsl:when test="$style=8">
+				<xsl:value-of select="$doc/fov:months/month[position()=$showdate]/@abbr"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="showDay">
+		<xsl:param name="format"/>
+		<xsl:param name="date"/>
+		<xsl:variable name="dateFlg" select="substring-before($format,',')"/>
+		<xsl:variable name="realDate">
+			<xsl:choose>
+				<xsl:when test="$dateFlg=1">
+					<xsl:choose>
+						<xsl:when test="string-length($date)=2 and substring($date,1,1)=0">
+							<xsl:value-of select="substring($date,2,1)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$date"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$dateFlg=2">
+					<xsl:if test="string-length($date)=2">
+						<xsl:value-of select="$date"/>
+					</xsl:if>
+					<xsl:if test="string-length($date)=1">
+						<xsl:value-of select="concat($date,'0')"/>
+					</xsl:if>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="style" select="substring-after($format,',')"/>
+		<xsl:choose>
+			<xsl:when test="$style=1">
+				<xsl:value-of select="$realDate"/>
+			</xsl:when>
+			<xsl:when test="$style=2 or $style=3">
+				<xsl:variable name="showdate">
+					<xsl:choose>
+						<xsl:when test="string-length($realDate)=2 and substring($date,1,1)=0">
+							<xsl:value-of select="substring($realDate,2,1)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$realDate"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:call-template name="translateshu">
+					<xsl:with-param name="number" select="$showdate"/>
+					<xsl:with-param name="flg" select="$style"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$style=4">
+				<xsl:call-template name="translateshu">
+					<xsl:with-param name="number" select="$realDate"/>
+					<xsl:with-param name="flg" select="$style"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$style=5">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=6">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=7">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=8">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="showHours">
+		<xsl:param name="format"/>
+		<xsl:param name="date"/>
+		<xsl:variable name="dateFlg" select="substring-before($format,',')"/>
+		<xsl:variable name="realDate">
+			<xsl:choose>
+				<xsl:when test="$dateFlg=0">
+					<xsl:choose>
+						<xsl:when test="string-length($date)=2 and substring($date,1,1)=0">
+							<xsl:value-of select="substring($date,2,1)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$date"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$dateFlg=1 or $dateFlg=2 or $dateFlg=3">
+					<xsl:choose>
+						<xsl:when test="string-length($date)=2 and substring($date,1,1)=0">
+							<xsl:value-of select="substring($date,2,1)"/>
+						</xsl:when>
+						<xsl:when test="$date&gt;11">
+							<xsl:value-of select="($date)-12"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$date"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$dateFlg=4">
+					<xsl:value-of select="$date"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=5 or $dateFlg=6 or $dateFlg=7">
+					<xsl:choose>
+						<xsl:when test="$date&gt;11">
+							<xsl:value-of select="$date - 12"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$date"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="beforeText">
+			<xsl:choose>
+				<xsl:when test="$dateFlg=0 or $dateFlg=3 or $dateFlg=4 or $dateFlg=7">
+					<xsl:value-of select="''"/>
+				</xsl:when>
+				<xsl:when test="$dateFlg=1 or $dateFlg=5">
+					<xsl:choose>
+						<xsl:when test="$date&gt;11">
+							<xsl:value-of select="'pm '"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'am '"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$dateFlg=2 or $dateFlg=6">
+					<xsl:choose>
+						<xsl:when test="$date&gt;11">
+							<xsl:value-of select="'下午 '"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'上午 '"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:value-of select="$beforeText"/>
+		<xsl:variable name="style" select="substring-after($format,',')"/>
+		<xsl:choose>
+			<xsl:when test="$style=1">
+				<xsl:value-of select="$realDate"/>
+			</xsl:when>
+			<xsl:when test="$style=2 or $style=3 or $style=4">
+				<xsl:call-template name="translateshu">
+					<xsl:with-param name="number" select="$realDate"/>
+					<xsl:with-param name="flg" select="$style"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$style=5">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=6">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=7">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=8">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="showMinutes">
+		<xsl:param name="format"/>
+		<xsl:param name="date"/>
+		<xsl:variable name="dateFlg" select="substring-before($format,',')"/>
+		<xsl:variable name="realDate">
+			<xsl:choose>
+				<xsl:when test="$dateFlg=1">
+					<xsl:choose>
+						<xsl:when test="string-length($date)=2 and substring($date,1,1)=0">
+							<xsl:value-of select="substring($date,2,1)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$date"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$dateFlg=2">
+					<xsl:value-of select="$date"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="style" select="substring-after($format,',')"/>
+		<xsl:choose>
+			<xsl:when test="$style=1">
+				<xsl:value-of select="$realDate"/>
+			</xsl:when>
+			<xsl:when test="$style=2 or $style=3 or $style=4">
+				<xsl:call-template name="translateshu">
+					<xsl:with-param name="number" select="$realDate"/>
+					<xsl:with-param name="flg" select="$style"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$style=5">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=6">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=7">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=8">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="showSeconds">
+		<xsl:param name="format"/>
+		<xsl:param name="date"/>
+		<xsl:variable name="dateFlg" select="substring-before($format,',')"/>
+		<xsl:variable name="realDate">
+			<xsl:choose>
+				<xsl:when test="$dateFlg=1">
+					<xsl:choose>
+						<xsl:when test="string-length($date)=2 and substring($date,1,1)=0">
+							<xsl:value-of select="substring($date,2,1)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$date"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$dateFlg=2">
+					<xsl:value-of select="$date"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="style" select="substring-after($format,',')"/>
+		<xsl:choose>
+			<xsl:when test="$style=1">
+				<xsl:value-of select="$realDate"/>
+			</xsl:when>
+			<xsl:when test="$style=2 or $style=3 or $style=4">
+				<xsl:call-template name="translateshu">
+					<xsl:with-param name="number" select="$realDate"/>
+					<xsl:with-param name="flg" select="$style"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$style=5">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=6">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=7">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+			<xsl:when test="$style=8">
+				<xsl:value-of select="''"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+</a>

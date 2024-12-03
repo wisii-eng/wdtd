@@ -1,0 +1,28 @@
+<xsl:template name="tsu03">
+		<xsl:param name="number"/>
+		<xsl:variable name="length" select="string-length($number)"/>
+		<xsl:choose>
+			<xsl:when test="$length = 1">
+				<xsl:value-of select="$num/fov:numbers/number[@value=$number]/@chineseO"/>
+			</xsl:when>
+			<xsl:when test="$length = 2">
+				<xsl:variable name="one" select="substring($number,1,1)"/>
+				<xsl:variable name="two" select="substring($number,2,1)"/>
+				<xsl:if test="$one &gt; 1">
+					<xsl:value-of select="$num/fov:numbers/number[@value=$one]/@chineseO"/>
+				</xsl:if>
+				<xsl:if test="$one &gt; 0">
+					<xsl:value-of select="$num/fov:numbers/number[@chineseO='十']/@chineseO"/>
+				</xsl:if>
+				<xsl:if test="$two !='0'">
+					<xsl:value-of select="$num/fov:numbers/number[@value=$two]/@chineseO"/>
+				</xsl:if>
+			</xsl:when>
+			<xsl:when test="$length = 4">
+				<xsl:value-of select="$num/fov:numbers/number[@value=substring($number,1,1)]/@chineseO"/>
+				<xsl:value-of select="$num/fov:numbers/number[@value=substring($number,2,1)]/@chineseO"/>
+				<xsl:value-of select="$num/fov:numbers/number[@value=substring($number,3,1)]/@chineseO"/>
+				<xsl:value-of select="$num/fov:numbers/number[@value=substring($number,4,1)]/@chineseO"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>

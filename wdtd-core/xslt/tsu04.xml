@@ -1,0 +1,23 @@
+<xsl:template name="tsu04">
+	<xsl:param name="number"/>
+	<xsl:variable name="length" select="string-length($number)"/>
+	<xsl:if test="$length&gt;0">
+		<xsl:variable name="value" select="substring($number,1,1)"/>
+		<xsl:choose>
+			<xsl:when test="$length=1">
+				<xsl:if test="$value&gt;=0">
+					<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chineserenmingbi"/>
+				</xsl:if>
+			</xsl:when>
+			<xsl:when test="$length=2">
+				<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chineserenmingbi"/>
+				<xsl:if test="$value&gt;0">
+					<xsl:value-of select="$num/fov:numbers/number[@value=10]/@chineserenmingbi"/>
+				</xsl:if>
+				<xsl:call-template name="tsu04">
+					<xsl:with-param name="number" select="substring($number,2)"/>
+				</xsl:call-template>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:if>
+</xsl:template>

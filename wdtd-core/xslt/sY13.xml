@@ -1,0 +1,6 @@
+<xsl:template name="sY13">
+	<xsl:param name="data"/>
+	<xsl:call-template name="ts03">
+		<xsl:with-param name="number" select="substring($data,3,2)"/>
+	</xsl:call-template>
+</xsl:template>

@@ -1,0 +1,4 @@
+<xsl:template name="sY01">
+	<xsl:param name="data"/>
+	<xsl:value-of select="$data"/>
+</xsl:template>

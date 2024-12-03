@@ -1,0 +1,14 @@
+<xsl:template name="sD23">
+	<xsl:param name="data"/>
+	<xsl:variable name="realDate">
+		<xsl:if test="string-length($data)=2">
+			<xsl:value-of select="$data"/>
+		</xsl:if>
+		<xsl:if test="string-length($data)=1">
+			<xsl:value-of select="concat('0',$data)"/>
+		</xsl:if>
+	</xsl:variable>
+	<xsl:call-template name="tsu03">
+		<xsl:with-param name="number" select="$realDate"/>
+	</xsl:call-template>
+</xsl:template>

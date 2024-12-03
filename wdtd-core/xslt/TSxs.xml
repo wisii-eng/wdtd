@@ -1,0 +1,38 @@
+<xsl:template name="TSxs">
+		<xsl:param name="data"/>
+		<xsl:param name="flg"/>
+		<xsl:param name="add"/>
+		<xsl:choose>
+			<xsl:when test="$data='00'">
+				<xsl:if test="$add='true'">
+					<xsl:value-of select="'整'"/>
+				</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:variable name="jiao" select="substring($data,1,1)"/>
+				<xsl:value-of select="$num/fov:numbers/number[@value=$jiao]/@chineserenmingbi"/>
+				<xsl:choose>
+					<xsl:when test="$flg='2' or ($flg='3' and $jiao !='0')">
+						<xsl:value-of select="'角'"/>
+					</xsl:when>
+				</xsl:choose>
+				<xsl:variable name="fen" select="substring($data,2,1)"/>
+				<xsl:choose>
+				<xsl:when test="$fen!='0'">
+					<xsl:value-of select="$num/fov:numbers/number[@value=$fen]/@chineserenmingbi"/>
+					<xsl:choose>
+						<xsl:when test="$flg='1'"/>
+						<xsl:otherwise>
+							<xsl:value-of select="'分'"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:if test="$add='true'">
+						<xsl:value-of select="'整'"/>
+					</xsl:if>
+				</xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>

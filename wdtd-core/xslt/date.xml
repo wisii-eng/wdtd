@@ -1,0 +1,14 @@
+<fov:months>
+	<month length="31" capitalabbr="JAN" abbr="Jan" smallall="january" smallsingle="jan">January</month>
+	<month length="29" capitalabbr="FEB" abbr="Feb" smallall="february" smallsingle="feb">February</month>
+	<month length="31" capitalabbr="MAR" abbr="Mar" smallall="march" smallsingle="mar">March</month>
+	<month length="30" capitalabbr="APR" abbr="Apr" smallall="april" smallsingle="apr">April</month>
+	<month length="31" capitalabbr="MAY" abbr="May" smallall="may" smallsingle="may">May</month>
+	<month length="30" capitalabbr="JUN" abbr="Jun" smallall="june" smallsingle="jun">June</month>
+	<month length="31" capitalabbr="JUL" abbr="Jul" smallall="july" smallsingle="jul">July</month>
+	<month length="31" capitalabbr="AUG" abbr="Aug" smallall="august" smallsingle="aug">August</month>
+	<month length="30" capitalabbr="SEP" abbr="Sep" smallall="september" smallsingle="sep">September</month>
+	<month length="31" capitalabbr="OCT" abbr="Oct" smallall="october" smallsingle="oct">October</month>
+	<month length="30" capitalabbr="NOV" abbr="Nov" smallall="november" smallsingle="nov">November</month>
+	<month length="31" capitalabbr="DEC" abbr="Dec" smallall="december" smallsingle="dec">December</month>
+</fov:months>

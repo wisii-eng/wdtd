@@ -1,0 +1,23 @@
+<xsl:template name="sH73">
+	<xsl:param name="data"/>
+	<xsl:variable name="realDate">
+		<xsl:choose>
+			<xsl:when test="$data&gt;11">
+				<xsl:value-of select="$data - 12"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="string-length($data)=1">
+						<xsl:value-of select="concat('0',$data)"/>
+					</xsl:when>
+					<xsl:when test="string-length($data)=2">
+						<xsl:value-of select="$data"/>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:call-template name="tsu03">
+		<xsl:with-param name="number" select="$realDate"/>
+	</xsl:call-template>
+</xsl:template>

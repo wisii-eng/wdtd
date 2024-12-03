@@ -1,0 +1,20 @@
+	<fov:numbers>
+		<number chinesezero="○" chineseO="零" chineserenmingbi="零" value="0"/>
+		<number chinesezero="一" chineseO="一" chineserenmingbi="壹" value="1"/>
+		<number chinesezero="二" chineseO="二" chineserenmingbi="贰" value="2"/>
+		<number chinesezero="三" chineseO="三" chineserenmingbi="叁" value="3"/>
+		<number chinesezero="四" chineseO="四" chineserenmingbi="肆" value="4"/>
+		<number chinesezero="五" chineseO="五" chineserenmingbi="伍" value="5"/>
+		<number chinesezero="六" chineseO="六" chineserenmingbi="陆" value="6"/>
+		<number chinesezero="七" chineseO="七" chineserenmingbi="柒" value="7"/>
+		<number chinesezero="八" chineseO="八" chineserenmingbi="捌" value="8"/>
+		<number chinesezero="九" chineseO="九" chineserenmingbi="玖" value="9"/>
+		<number chinesezero="十" chineseO="十" chineserenmingbi="拾" unit="2"/>
+		<number chinesezero="百" chineseO="百" chineserenmingbi="佰" unit="3"/>
+		<number chinesezero="千" chineseO="千" chineserenmingbi="仟" unit="4"/>
+		<number chinesezero="万" chineseO="万" chineserenmingbi="万" unit="5"/>
+		<number chinesezero="亿" chineseO="亿" chineserenmingbi="亿" unit="1"/>
+		<number chinesezero="十" chineseO="十" chineserenmingbi="拾" unit="6"/>
+		<number chinesezero="百" chineseO="百" chineserenmingbi="佰" unit="7"/>
+		<number chinesezero="千" chineseO="千" chineserenmingbi="仟" unit="0"/>
+	</fov:numbers>

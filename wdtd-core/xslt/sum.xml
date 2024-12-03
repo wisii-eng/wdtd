@@ -1,0 +1,39 @@
+<!--计算以指定字符进行分隔的传入的数字类型字符串各数字进行求和-->
+	<xsl:template name="sum">
+		<xsl:param name="Text"/>
+		<xsl:param name="Separator"/>
+		<xsl:param name="Sum"/>
+		<xsl:variable name="beforeNumber">
+			<xsl:choose>
+				<xsl:when test="contains($Text,$Separator)">
+					<xsl:value-of select="substring-before($Text,$Separator)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$Text"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="afterNumbers" select="substring-after($Text,$Separator)"/>
+		<xsl:variable name="currentSum">
+			<xsl:choose>
+				<xsl:when test="number($beforeNumber) != 'NaN'">
+					<xsl:value-of select="$beforeNumber+$Sum"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$Sum"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="string-length($afterNumbers) != 0">
+				<xsl:call-template name="sum">
+					<xsl:with-param name="Text" select="$afterNumbers"/>
+					<xsl:with-param name="Separator" select="$Separator"/>
+					<xsl:with-param name="Sum" select="$currentSum"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$currentSum"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>

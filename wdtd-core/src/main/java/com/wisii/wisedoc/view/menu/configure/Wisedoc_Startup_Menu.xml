@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<wisedocmenus>
+	<menu name="wisedoc.menu.file" group="file" shortcut_key="Alt F">
+		<menuitem name="Wisedoc.Menu.File.New" shortcut_key="Ctrl N" icon="New.gif" action="NewFileAction" Mnemonic="N"/>
+		<menuitem name="Wisedoc.Menu.File.Open" shortcut_key="Ctrl O" icon="Open.gif" action="OpenFileAction" Mnemonic="O"/>
+		<menuitem name="Wisedoc.Menu.File.OpenHistory" shortcut_key="Ctrl Shift O" icon="OpenHistory.gif" action="OpenHistoryAction" Mnemonic="O"/>
+		<menuitem name="-"/>
+		<menuitem name="Wisedoc.Menu.File.Exit" shortcut_key="Ctrl F4" icon="Exit.gif" action="ExitAction" Mnemonic="X"/>
+	</menu>
+	<menu name="wisedoc.menu.help" group="help" shortcut_key="Alt H">
+		<menuitem name="Wisedoc.Menu.Help.WisedocHelp" icon="Help.gif" action="HelpAction" Mnemonic="H" shortcut_key="F1"/>
+		<menuitem name="-"/>
+		<menuitem name="Wisedoc.Menu.Help.Online" icon="Void16.gif" action="ContactAction" Mnemonic="O"/>
+		<menuitem name="Wisedoc.Menu.Help.About" icon="About.gif" action="AboutAction" Mnemonic="A"/>
+	</menu>
+</wisedocmenus>

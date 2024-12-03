@@ -1,0 +1,35 @@
+<xsl:template name="sY23">
+	<xsl:param name="format"/>
+	<xsl:param name="data"/>
+	<xsl:variable name="realDate">
+		<xsl:choose>
+			<xsl:when test="$format=1">
+				<xsl:value-of select="substring($data,1,1)"/>
+			</xsl:when>
+			<xsl:when test="$format=2">
+				<xsl:value-of select="substring($data,2,1)"/>
+			</xsl:when>
+			<xsl:when test="$format=3">
+				<xsl:value-of select="substring($data,3,1)"/>
+			</xsl:when>
+			<xsl:when test="$format=4">
+				<xsl:value-of select="substring($data,4,1)"/>
+			</xsl:when>
+			<xsl:when test="$format=5">
+				<xsl:value-of select="substring($data,1,2)"/>
+			</xsl:when>
+			<xsl:when test="$format=6">
+				<xsl:value-of select="substring($data,2,2)"/>
+			</xsl:when>
+			<xsl:when test="$format=8">
+				<xsl:value-of select="substring($data,1,3)"/>
+			</xsl:when>
+			<xsl:when test="$format=9">
+				<xsl:value-of select="substring($data,2,3)"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:call-template name="ts03">
+		<xsl:with-param name="number" select="$realDate"/>
+	</xsl:call-template>
+</xsl:template>

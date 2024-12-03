@@ -1,0 +1,6 @@
+<xsl:template name="sY032">
+	<xsl:param name="data"/>
+	<xsl:call-template name="ts03">
+		<xsl:with-param name="number" select="concat('20',$data)"/>
+	</xsl:call-template>
+</xsl:template>

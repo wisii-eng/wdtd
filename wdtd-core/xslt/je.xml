@@ -1,0 +1,76 @@
+<xsl:template name="je">
+		<xsl:param name="data"/>
+		<xsl:param name="flg"/>
+		<xsl:param name="add" select="'false'"/>
+		<xsl:param name="fushu" select="'负数'"/>
+		<xsl:variable name="numberold" select="normalize-space(translate($data,',',''))"/>
+        <xsl:if test="number($numberold) and number($numberold) &lt; number(0)">
+			 <xsl:value-of select="$fushu"/>
+        </xsl:if>		
+		<xsl:variable name="numbernospace" select="normalize-space(translate($numberold,'-',''))"/>
+		<xsl:if test="number($numbernospace) or $numbernospace=0">
+				<xsl:choose>
+		<xsl:when  test="number($numbernospace)=number(0)"><xsl:value-of select="'零'"/>
+			<xsl:if test="$flg='2'">
+					<xsl:value-of select="'元'"/>
+			</xsl:if>
+		     <xsl:if test="$add='true'">
+				<xsl:value-of select="'整'"/>
+			 </xsl:if></xsl:when>
+		     <xsl:otherwise>
+			<xsl:choose>
+				<xsl:when test="contains($numbernospace,'.')">
+					<xsl:variable name="bzdata" select="format-number($numbernospace,'###.00')"/>
+					<xsl:variable name="zhengshu" select="substring-before($bzdata,'.')"/>
+					<xsl:variable name="xiaoshu" select="substring-after($bzdata,'.')"/>
+					<xsl:if test="number($zhengshu) &gt; number(0)">
+					<xsl:call-template name="TSzs">
+						<xsl:with-param name="data" select="$zhengshu"/>
+						<xsl:with-param name="flg" select="$flg"/>
+					</xsl:call-template>
+					</xsl:if>
+					<xsl:call-template name="TSxs">
+						<xsl:with-param name="data" select="$xiaoshu"/>
+						<xsl:with-param name="flg" select="$flg"/>
+						<xsl:with-param name="add" select="$add"/>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="TSzs">
+						<xsl:with-param name="data" select="$numbernospace"/>
+						<xsl:with-param name="flg" select="$flg"/>
+					</xsl:call-template>
+					<xsl:if test="$add='true'">
+						<xsl:value-of select="'整'"/>
+					</xsl:if>
+				</xsl:otherwise>
+			</xsl:choose>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+	</xsl:template>
+		<xsl:template name="TSzs">
+		<xsl:param name="data"/>
+		<xsl:param name="flg"/>
+		<xsl:param name="length" select="string-length($data)"/>
+		<xsl:choose>
+			<xsl:when test="$length &gt;0">
+				<xsl:variable name="value" select="substring($data,1,1)"/>
+				<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chineserenmingbi"/>
+				<xsl:if test="$flg='2' and $length &gt;1">
+					<xsl:variable name="unit" select="$length mod 8"/>
+					<xsl:value-of select="$num/fov:numbers/number[@unit=$unit]/@chineserenmingbi"/>
+				</xsl:if>
+				<xsl:call-template name="TSzs">
+					<xsl:with-param name="data" select="substring($data,2)"/>
+					<xsl:with-param name="flg" select="$flg"/>
+					<xsl:with-param name="length" select="$length -1"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+			    <xsl:if test="$flg='2'">
+				    <xsl:value-of select="'元'"/>
+				</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<db>
+	<name value="Oracle Thin"/>
+	<name value="IBM DB2"/>
+	<name value="MSQL Server"/>
+	<name value="MySQL"/>
+	<name value="PostgreSQL"/>
+</db>

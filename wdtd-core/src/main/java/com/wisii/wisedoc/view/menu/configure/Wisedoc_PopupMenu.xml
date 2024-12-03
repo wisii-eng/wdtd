@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wisedocpopupmenus>
+	<!--group name = "wisedoc.popupmenu.group"-->
+	<!--menu name = "Wisedoc.PopupMenu.Group.Group" shortcut_key="G" icon="" action="" Mnemonic="G"-->
+	<!--menuitem name="Wisedoc.PopupMenu.Group.Group.Group"  icon="Group.gif" shortcut_key="G" action="GroupAction" Mnemonic="G"/-->
+	<!--menuitem name="Wisedoc.PopupMenu.Group.Group.UnGroup" icon="Ungroup.gif" shortcut_key="U" action="GroupUngroupAction" Mnemonic="U"/-->
+	<!-- menuitem name="Wisedoc.PopupMenu.Group.Group.ReGroup" shortcut_key="R" action="" Mnemonic="R"/ -->
+	<!--/menu-->
+	<!--/group-->
+	<!--group name="wisedoc.popupmenu.mutilcells">
+		<menu name="Wisedoc.PopupMenu.MutilCells.Size" shortcut_key="S" icon="" action="" Mnemonic="S">
+			<menuitem name="Wisedoc.Menu.Format.SameWidth" icon="SameWidth.gif" action="SameWidthAction" Mnemonic="W" shortcut_key="ctrl shift W"/>
+			<menuitem name="Wisedoc.Menu.Format.SameHeight" icon="SameHeight.gif" action="SameHeightAction" Mnemonic="H" shortcut_key="ctrl shift H"/>
+		</menu>
+		<menu name="Wisedoc.PopupMenu.MutilCells.Align" shortcut_key="A" icon="" action="" Mnemonic="A">
+			<menuitem name="Wisedoc.Menu.Format.AlignLeft" icon="AlignLeft.gif" action="AlignLeftAction" Mnemonic="L" shortcut_key="ctrl shift L"/>
+			<menuitem name="Wisedoc.Menu.Format.AlignCenter" icon="AlignCenter.gif" action="AlignCenterAction" Mnemonic="C" shortcut_key="ctrl shift C"/>
+			<menuitem name="Wisedoc.Menu.Format.AlignRight" icon="AlignRight.gif" action="AlignRightAction" Mnemonic="R" shortcut_key="ctrl shift R"/>
+			<menuitem name="-"/>
+			<menuitem name="Wisedoc.Menu.Format.AlignTop" icon="AlignTop.gif" action="AlignTopAction" shortcut_key="ctrl shift T" Mnemonic="T"/>
+			<menuitem name="Wisedoc.Menu.Format.AlignMiddle" icon="AlignMiddle.gif" action="AlignMiddleAction" shortcut_key="ctrl shift M" Mnemonic="M"/>
+			<menuitem name="Wisedoc.Menu.Format.AlignBottom" icon="AlignBottom.gif" action="AlignBottomAction" shortcut_key="ctrl shift B" Mnemonic="B"/>
+		</menu>
+		<menu name="Wisedoc.PopupMenu.MutilCells.Space" shortcut_key="P" icon="" action="" Mnemonic="P">
+			<menuitem name="Wisedoc.Menu.Format.SameSpaceH" icon="SameSpaceH.gif" action="SameSpaceHAction" Mnemonic="E" shortcut_key="ctrl shift E"/>
+			<menuitem name="Wisedoc.Menu.Format.SameSpaceV" icon="SameSpaceV.gif" action="SameSpaceVAction" Mnemonic="V" shortcut_key="ctrl shift V"/>
+		</menu>
+	</group-->
+	<group name="wisedoc.popupmenu.text">
+		<menuitem name="wisedoc.menu.format.textfont" icon="Font.gif" action="TextFontAction" Mnemonic="F"/>
+		<!--menuitem name="Wisedoc.PopupMenu.Text.lineSpace" icon="Paragrap.gif" action="TextLineSpaceAction" Mnemonic="R"/-->
+		<menuitem name="wisedoc.menu.format.para" icon="Paragrap.gif" action="TextParagraphAction" Mnemonic="R"/>
+	</group>
+	<group name="wisedoc.popupmenu.textedit">
+		<menuitem name="wisedoc.menu.edit.cut" shortcut_key="Ctrl X" icon="Cut.gif" Mnemonic="T" action="CutAction"/>
+		<menuitem name="wisedoc.menu.edit.copy" shortcut_key="Ctrl C" icon="Copy.gif" Mnemonic="C" action="CopyAction"/>
+		<menuitem name="wisedoc.menu.edit.copytext" shortcut_key="Ctrl Shift C" icon="Copy.gif" Mnemonic="C" action="CopyTextAction"/>
+		<menuitem name="wisedoc.menu.edit.paste" shortcut_key="Ctrl V" icon="Paste.gif" Mnemonic="P" action="PasteAction"/>
+	</group>
+	<group name="wisedoc.popupmenu.binding.editmode">
+		<menuitem name="wisedoc.menu.binding.editmode" type="com.wisii.wisedoc.view.menu.EditModeMenu" kind="custom"/>
+	</group>
+	<group name="wisedoc.popupmenu.eidt.textlayer">
+		<menuitem name="wisedoc.menu.format.setlayer" icon="SetLayer.gif" Mnemonic="E"/>
+	</group>
+	<group name="wisedoc.popupmenu.eidt.borderlayer">
+		<menuitem name="wisedoc.menu.format.forwardlayer" icon="SetLayer.gif" Mnemonic="E"/>
+	</group>
+	<group name="wisedoc.popupmenu.eidt.backgroundlayer">
+		<menuitem name="wisedoc.menu.format.backwardlayer" icon="SetLayer.gif" Mnemonic="E"/>
+	</group>
+	<!--group name="wisedoc.popupmenu.eidt.emptydata">
+		<menuitem name="Wisedoc.PopupMenu.edit.EmptyData" icon="Void16.gif"  Mnemonic="D"/>
+	</group-->
+</wisedocpopupmenus>

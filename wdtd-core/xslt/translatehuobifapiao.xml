@@ -1,0 +1,153 @@
+<xsl:template name="translatehuobifapiao">
+		<xsl:param name="number"/>
+		<xsl:param name="flg" select="'true'"/>
+		<xsl:param name="error" select="'NaN'"/>
+		<xsl:variable name="numbernospace" select="normalize-space($number)"/>
+		<xsl:variable name="numbertrue">
+			<xsl:if test="number($numbernospace) or $numbernospace=0">
+				<xsl:value-of select="'true'"/>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$numbertrue='true'">
+				<xsl:variable name="zhengshu">
+					<xsl:choose>
+						<xsl:when test="contains($numbernospace,'.')">
+							<xsl:value-of select="substring-before($numbernospace,'.')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$numbernospace"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="xiaoshu">
+					<xsl:choose>
+						<xsl:when test="contains($numbernospace,'.')">
+							<xsl:value-of select="substring-after($numbernospace,'.')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="''"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:if test="string-length($zhengshu)&gt;0">
+					<xsl:call-template name="translatezhengshu">
+						<xsl:with-param name="number" select="$zhengshu"/>
+						<xsl:with-param name="flg" select="$flg"/>
+						<xsl:with-param name="error" select="$error"/>
+					</xsl:call-template>
+					<xsl:if test="($flg='true') and ((string-length($zhengshu)&gt;0)and(string-length($zhengshu)&lt;17))">
+						<xsl:value-of select="'元'"/>
+					</xsl:if>
+				</xsl:if>
+				<xsl:if test="string-length($xiaoshu)&gt;0">
+					<xsl:call-template name="translatexiaoshu">
+						<xsl:with-param name="number" select="$xiaoshu"/>
+						<xsl:with-param name="flg" select="$flg"/>
+					</xsl:call-template>
+				</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$error"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="translatezhengshu">
+		<xsl:param name="number"/>
+		<xsl:param name="flg" select="'true'"/>
+		<xsl:param name="error"/>
+		<xsl:variable name="length" select="string-length($number)"/>
+		<xsl:if test="($length &gt;0) and ($length &lt;17)">
+			<xsl:variable name="value" select="substring($number,1,1)"/>
+			<xsl:value-of select="$num/fov:numbers/number[@value=$value]/@chineserenmingbi"/>
+			<xsl:if test="$flg='true'">
+				<xsl:choose>
+					<xsl:when test="$length=1"/>
+					<xsl:when test="$length=2">
+						<xsl:value-of select="$num/fov:numbers/number[@value=10]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=3">
+						<xsl:value-of select="$num/fov:numbers/number[@value=100]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=4">
+						<xsl:value-of select="$num/fov:numbers/number[@value=1000]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=5">
+						<xsl:value-of select="$num/fov:numbers/number[@value=10000]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=6">
+						<xsl:value-of select="$num/fov:numbers/number[@value=10]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=7">
+						<xsl:value-of select="$num/fov:numbers/number[@value=100]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=8">
+						<xsl:value-of select="$num/fov:numbers/number[@value=1000]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=9">
+						<xsl:value-of select="$num/fov:numbers/number[@value=100000000]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=10">
+						<xsl:value-of select="$num/fov:numbers/number[@value=10]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=11">
+						<xsl:value-of select="$num/fov:numbers/number[@value=100]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=12">
+						<xsl:value-of select="$num/fov:numbers/number[@value=1000]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=13">
+						<xsl:value-of select="$num/fov:numbers/number[@value=10000]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=14">
+						<xsl:value-of select="$num/fov:numbers/number[@value=10]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=15">
+						<xsl:value-of select="$num/fov:numbers/number[@value=100]/@chineserenmingbi"/>
+					</xsl:when>
+					<xsl:when test="$length=16">
+						<xsl:value-of select="$num/fov:numbers/number[@value=1000]/@chineserenmingbi"/>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:if>
+			<xsl:call-template name="translatezhengshu">
+				<xsl:with-param name="number" select="substring($number,2)"/>
+				<xsl:with-param name="flg" select="$flg"/>
+				<xsl:with-param name="error" select="$error"/>
+			</xsl:call-template>
+		</xsl:if>
+		<xsl:if test="$length &gt;17">
+			<xsl:value-of select="$error"/>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="translatexiaoshu">
+		<xsl:param name="number"/>
+		<xsl:param name="flg" select="'true'"/>
+		<xsl:variable name="truenumber">
+			<xsl:choose>
+				<xsl:when test="string-length($number)=1">
+					<xsl:value-of select="concat($number,'0')"/>
+				</xsl:when>
+				<xsl:when test="string-length($number)=2">
+					<xsl:value-of select="$number"/>
+				</xsl:when>
+				<xsl:when test="string-length($number)&gt;2">
+					<xsl:variable name="ifjinwei" select="substring($number,3,1)"/>
+					<xsl:if test="$ifjinwei &gt;4">
+						<xsl:value-of select="substring($number,1,2)+1"/>
+					</xsl:if>
+					<xsl:if test="$ifjinwei &lt;5">
+						<xsl:value-of select="substring($number,1,2)"/>
+					</xsl:if>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:value-of select="$num/fov:numbers/number[@value=substring($truenumber,1,1)]/@chineserenmingbi"/>
+		<xsl:if test="$flg='true'">
+			<xsl:value-of select="'角'"/>
+		</xsl:if>
+		<xsl:value-of select="$num/fov:numbers/number[@value=substring($truenumber,2,1)]/@chineserenmingbi"/>
+		<xsl:if test="$flg='true'">
+			<xsl:value-of select="'分'"/>
+		</xsl:if>
+	</xsl:template>

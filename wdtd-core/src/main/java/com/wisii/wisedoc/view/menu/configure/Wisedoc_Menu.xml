@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wisedocmenus xmlns:fo="http://www.w3.org/1999/XSL/Format">
+	<menu name="wisedoc.menu.file" group="file" shortcut_key="Alt F">
+		<menuitem name="wisedoc.menu.file.new" shortcut_key="Ctrl N" icon="New.gif" Mnemonic="N" action=""/>
+		<menuitem name="wisedoc.menu.file.open" shortcut_key="Ctrl O" icon="Open.gif" Mnemonic="O" action="OpenFileAction"/>
+		<menuitem name="wisedoc.menu.file.openhistory" shortcut_key="Ctrl Shift O" icon="OpenHistory.gif" Mnemonic="O" action=""/>
+		<menuitem name="wisedoc.menu.file.save" shortcut_key="Ctrl S" icon="Save.gif" Mnemonic="S" action="SaveFileAction"/>
+		<menuitem name="wisedoc.menu.file.saveas" shortcut_key="Ctrl Shift S" icon="SaveAs.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.file.explortfile" shortcut_key="" icon="Export16.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.file.printpreview" shortcut_key="" icon="Browse.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.file.print" shortcut_key="" icon="Print.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.file.sentto" shortcut_key="" icon="" Mnemonic="" action="">
+			<menuitem name="wisedoc.menu.file.sentto.inherit" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.file.sentto.browse" shortcut_key="" icon="" Mnemonic="" action=""/>
+		</menuitem>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.file.close" shortcut_key="Ctrl W" icon="Close.gif" Mnemonic="C" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.file.exit" shortcut_key="Ctrl F4" icon="Exit.gif" Mnemonic="X" action=""/>
+	</menu>
+	<menu name="wisedoc.menu.edit" group="edit" shortcut_key="Alt E">
+		<menuitem name="wisedoc.menu.edit.undo" shortcut_key="Ctrl Z" icon="Undo.gif" Mnemonic="U" action="UndoAction"/>
+		<menuitem name="wisedoc.menu.edit.redo" shortcut_key="Ctrl Y" icon="Redo.gif" Mnemonic="R" action="RedoAction"/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.edit.cut" shortcut_key="Ctrl X" icon="Cut.gif" Mnemonic="T" action="CutAction"/>
+		<menuitem name="wisedoc.menu.edit.copy" shortcut_key="Ctrl C" icon="Copy.gif" Mnemonic="C" action="CopyAction"/>
+		<menuitem name="wisedoc.menu.edit.copytext" shortcut_key="Ctrl Shift C" icon="Copy.gif" Mnemonic="C" action="CopyTextAction"/>
+		<menuitem name="wisedoc.menu.edit.paste" shortcut_key="Ctrl V" icon="Paste.gif" Mnemonic="P" action="PasteAction"/>
+		<menuitem name="wisedoc.menu.edit.delete" shortcut_key="Delete" icon="Delete.gif" Mnemonic="D" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.edit.find" shortcut_key="" icon="Find.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.edit.replace" shortcut_key="" icon="Next.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.edit.location" shortcut_key="" icon="EditPivot24.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.edit.clear" shortcut_key="" icon="" Mnemonic="" action="">
+			<menuitem name="wisedoc.menu.edit.clear.content" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.edit.clear.format" shortcut_key="" icon="" Mnemonic="" action=""/>
+		</menuitem>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.edit.selectall" shortcut_key="Ctrl A" icon="SelectAll.gif" Mnemonic="A" action=""/>
+	</menu>
+	<menu name="wisedoc.menu.view" group="view" shortcut_key="Alt V">
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.view.normal" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.weblayout" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.readlayout" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.page" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.view.zoomin"  icon="ZoomIn.gif" Mnemonic="9" action=""/>
+		<menuitem name="wisedoc.menu.view.zoomout"  icon="ZoomOut.gif" Mnemonic="1" action=""/>
+		<menuitem name="wisedoc.menu.view.zoomreset" shortcut_key="ctrl 0" icon="Zoom.gif" Mnemonic="0" action=""/>
+		<menuitem name="wisedoc.menu.view.fullscreen" shortcut_key="ctrl enter" icon="FullScreen.gif" Mnemonic="U" action="" kind="checkbox"/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.view.blockflg" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.footernote" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.taskpane" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.outline" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.bar" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.view.docchart" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.thumbnails" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.headerandfooter" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.showproportion" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.view.flg" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.view.toorbar" shortcut_key="" icon="Toolbar.gif" Mnemonic="" action="" kind="checkbox"/>
+	</menu>
+	<menu name="wisedoc.menu.insert" group="insert" shortcut_key="Alt I">
+		<menuitem name="wisedoc.menu.insert.text" shortcut_key="" icon="TextFlow.gif" Mnemonic="T" action=""/>
+		<menuitem name="wisedoc.menu.insert.table" shortcut_key="ctrl T" icon="Table.gif" Mnemonic="A" action="InsertTableAction"/>
+		<menuitem name="wisedoc.menu.insert.bookmarks" shortcut_key="" icon="List.gif" Mnemonic="L" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.insert.numbertext" shortcut_key="" icon="formattedNumber.gif" Mnemonic="N" action=""/>
+		<menuitem name="wisedoc.menu.insert.datetime" shortcut_key="ctrl d" icon="DateTime.gif" Mnemonic="D" action=""/>
+		<menuitem name="wisedoc.menu.insert.link" shortcut_key="ctrl h" icon="InternetLink.gif" Mnemonic="H" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.insert.barcode" shortcut_key="" icon="Barcode.gif" Mnemonic="B" action="InsertBarCodeAction"/>
+		<menuitem name="wisedoc.menu.insert.image" shortcut_key="ctrl shift I" icon="Image.gif" Mnemonic="" action="insertImageAction"/>
+		<menuitem name="wisedoc.menu.insert.pagenumber" shortcut_key="" icon="PageNumber.gif" Mnemonic="P" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.insert.figure" shortcut_key="" icon="Figure.gif" Mnemonic="R" action=""/>
+		<menuitem name="wisedoc.menu.insert.line" shortcut_key="ctrl L" icon="Line.gif" Mnemonic="E" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.insert.specialsymbols" shortcut_key="" icon="" Mnemonic="" action=""/>
+	</menu>
+	<menu name="wisedoc.menu.format" group="format" shortcut_key="Alt O">
+		<menuitem name="wisedoc.menu.format.textfont" shortcut_key="" icon="Font.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.paragrap" shortcut_key="" icon="Paragrap.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.para" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.format.styleformat" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.symbol" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.columns" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.format.sink" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.direction" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.changecase" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.format.border" shortcut_key="" icon="Border.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.background" shortcut_key="" icon="Background.gif" Mnemonic="" action=""/>
+		<!--<menuitem name="wisedoc.menu.format.tab" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>-->
+		<!--<menuitem name="wisedoc.menu.format.widthadjustment" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.chineseformat" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.theme" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.framework" shortcut_key="" icon="" Mnemonic="" action=""/>-->
+		<menuitem name="wisedoc.menu.format.autoformat" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.showformat" shortcut_key="" icon="" Mnemonic="" action=""/>
+	</menu>
+	<menu name="wisedoc.menu.tables" group="tables" shortcut_key="">
+		<menuitem name="wisedoc.menu.tables.draw" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tables.insert" shortcut_key="" icon="" Mnemonic="" action="">
+			<menuitem name="wisedoc.menu.tables.insert.tables" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="-"/>
+			<menuitem name="wisedoc.menu.tables.insert.columnleft" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.tables.insert.columnright" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="-"/>
+			<menuitem name="wisedoc.menu.tables.insert.rowtop" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.tables.insert.rowbottom" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="-"/>
+			<menuitem name="wisedoc.menu.tables.insert.tablecell" shortcut_key="" icon="" Mnemonic="" action=""/>
+		</menuitem>
+		<menuitem name="wisedoc.menu.tables.delete" shortcut_key="" icon="" Mnemonic="" action="">
+			<menuitem name="wisedoc.menu.tables.insert.tables" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.tables.delete.column" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.tables.delete.row" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.tables.insert.tablecell" shortcut_key="" icon="" Mnemonic="" action=""/>
+		</menuitem>
+		<menuitem name="wisedoc.menu.tables.choose" shortcut_key="" icon="" Mnemonic="" action="">
+			<menuitem name="wisedoc.menu.tables.insert.tables" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.tables.delete.column" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.tables.delete.row" shortcut_key="" icon="" Mnemonic="" action=""/>
+			<menuitem name="wisedoc.menu.tables.insert.tablecell" shortcut_key="" icon="" Mnemonic="" action=""/>
+		</menuitem>
+		<menuitem name="wisedoc.menu.tables.merger" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tables.split" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tables.tableautoformat" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tables.sort" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tables.hiddenboeder" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tables.properties" shortcut_key="" icon="" Mnemonic="" action=""/>
+	</menu>
+	<menu name="wisedoc.menu.arrange" group="arrange" shortcut_key="Alt A">
+		<menuitem name="wisedoc.menu.format.alignleft" shortcut_key="ctrl shift L" icon="AlignLeft.gif" Mnemonic="L" action=""/>
+		<menuitem name="wisedoc.menu.format.aligncenter" shortcut_key="ctrl shift C" icon="AlignCenter.gif" Mnemonic="C" action=""/>
+		<menuitem name="wisedoc.menu.format.alignright" shortcut_key="ctrl shift R" icon="AlignRight.gif" Mnemonic="R" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.format.aligntop" shortcut_key="ctrl shift T" icon="AlignTop.gif" Mnemonic="T" action=""/>
+		<menuitem name="wisedoc.menu.format.alignmiddle" shortcut_key="ctrl shift M" icon="AlignMiddle.gif" Mnemonic="M" action=""/>
+		<menuitem name="wisedoc.menu.format.alignbottom" shortcut_key="ctrl shift B" icon="AlignBottom.gif" Mnemonic="B" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.format.alignbefore" shortcut_key="" icon="DelGroupProperty.gif" Mnemonic="T" action=""/>
+		<menuitem name="wisedoc.menu.format.aligncentral" shortcut_key="" icon="editCellBorder.gif" Mnemonic="M" action=""/>
+		<menuitem name="wisedoc.menu.format.alignafter" shortcut_key="" icon="delTableRow.gif" Mnemonic="B" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.format.samewidth" shortcut_key="ctrl shift W" icon="SameWidth.gif" Mnemonic="W" action=""/>
+		<menuitem name="wisedoc.menu.format.sameheight" shortcut_key="ctrl shift H" icon="SameHeight.gif" Mnemonic="H" action=""/>
+		<menuitem name="wisedoc.menu.format.samespaceh" shortcut_key="ctrl shift E" icon="SameSpaceH.gif" Mnemonic="E" action=""/>
+		<menuitem name="wisedoc.menu.format.samespacev" shortcut_key="ctrl shift V" icon="SameSpaceV.gif" Mnemonic="V" action=""/>
+	</menu>
+	<menu name="wisedoc.menu.format.setlayer" group="setlayer" shortcut_key="">
+		<menuitem name="wisedoc.menu.format.forwardlayer" shortcut_key="" icon="ForwardLayer.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.format.backwardlayer" shortcut_key="" icon="BackwardLayer.gif" Mnemonic="B" action=""/>
+	</menu>
+	<menu name="wisedoc.menu.group" group="group" shortcut_key="Alt G">
+		<menuitem name="wisedoc.menu.windows.groupproperty" shortcut_key="" icon="GroupProperty.gif" Mnemonic="T" action=""/>
+		<menuitem name="wisedoc.menu.windows.delgroupproperty" shortcut_key="" icon="DelGroupProperty.gif" Mnemonic="T" action=""/>
+	</menu>
+	<menu name="wisedoc.menu.tools" group="tools" shortcut_key="Alt T">
+		<menuitem name="wisedoc.menu.tools.docset" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.tools.preview" shortcut_key="" icon="Browse.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tools.createxsldoc" shortcut_key="" icon="Template.gif" Mnemonic="" action="ExplortXSLTFileAction"/>
+		<menuitem name="-"/>
+		<!--<menuitem name="wisedoc.menu.tools.informationretrieval" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tools.language" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tools.totalword" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.tools.comparing" shortcut_key="" icon="SetOption.gif" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tools.autosummary" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="wisedoc.menu.tools.custom" shortcut_key="" icon="" Mnemonic="" action=""/>
+		<menuitem name="-"/>-->
+		<menuitem name="wisedoc.menu.tools.options" shortcut_key="" icon="" Mnemonic="" action=""/>
+	</menu>
+	<menu name="wisedoc.menu.help" group="help" shortcut_key="Alt H">
+		<menuitem name="wisedoc.menu.help.wisedochelp" shortcut_key="F1" icon="help.gif" Mnemonic="H" action=""/>
+		<menuitem name="-"/>
+		<menuitem name="wisedoc.menu.help.online" shortcut_key="" icon="Void16.gif" Mnemonic="O" action=""/>
+		<menuitem name="wisedoc.menu.help.about" shortcut_key="" icon="About.gif" Mnemonic="A" action=""/>
+		<menuitem name="wisedoc.menu.help.preposition" shortcut_key="ctrl left"  Mnemonic="H" action="PreviousDocumentPositionAction"/>
+		<menuitem name="wisedoc.menu.help.nextposition" shortcut_key="ctrl right"  Mnemonic="H" action="NextDocumentPositionAction"/>
+		<menuitem name="wisedoc.menu.help.premoveselect" shortcut_key="shift left"  Mnemonic="H" action="PreviousMoveSelectAction"/>
+		<menuitem name="wisedoc.menu.help.nextmoveselect" shortcut_key="shift right"  Mnemonic="H" action="NextMoveSelectAction"/>
+	</menu>
+</wisedocmenus>

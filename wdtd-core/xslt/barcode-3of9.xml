@@ -1,0 +1,611 @@
+
+	<xsl:template name="barcode-3of9">
+		<xsl:param name="value"/>
+		<xsl:param name="string"/>
+		<xsl:param name="print-text" select="'true'"/>
+		<xsl:param name="text-color" select="'black'"/>
+		<xsl:param name="addchecksum" select="'false'"/>
+		<xsl:param name="module" select="'0.305mm'"/>
+		<xsl:param name="wide-to-narrow" select="3.0"/>
+		<xsl:param name="height" select="'12.7mm'"/>
+		<xsl:param name="quiet-horizontal" select="'0.5mm'"/>
+		<xsl:param name="quiet-vertical" select="'0.5mm'"/>
+		<xsl:param name="font-family" select="'Arial'"/>
+		<xsl:param name="font-weight" select="'normal'"/>
+		<xsl:param name="font-style" select="'normal'"/>
+		<xsl:param name="font-height" select="'10pt'"/>
+		<xsl:param name="barcode-color" select="'black'"/>
+		<xsl:param name="text-block" select="'3.048mm'"/>
+		<xsl:param name="text-char-space" select="'0mm'"/>
+		<xsl:param name="orientation" select="0"/>
+		<xsl:variable name="code39-alphabet" select="'0123456789QWERTYUIOPASDFGHJKLZXCVBNM-.$/%+'"/>
+		<xsl:if test="string-length($value)=0">
+		</xsl:if>
+		<xsl:if test="string-length(translate($value,$code39-alphabet,''))!=0">
+		</xsl:if>
+		<xsl:variable name="value-real">
+			<xsl:text>*</xsl:text>
+			<xsl:if test="string-length(translate($value,$code39-alphabet,''))=0">
+				<xsl:value-of select="$value"/>
+			</xsl:if>
+			<xsl:if test="$addchecksum='true'">
+				<xsl:call-template name="code39-checksum">
+					<xsl:with-param name="string" select="$value"/>
+				</xsl:call-template>
+			</xsl:if>
+			<xsl:text>*</xsl:text>
+		</xsl:variable>
+		<xsl:variable name="value-encoded">
+			<xsl:call-template name="code39-char2bar_codec">
+				<xsl:with-param name="string" select="$value-real"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:call-template name="code39-draw-barcode">
+			<xsl:with-param name="sequence" select="$value-encoded"/>
+			<xsl:with-param name="string">
+				<xsl:choose>
+					<xsl:when test="string-length($string)=0">
+						<xsl:value-of select="$value-real"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$string"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:with-param>
+			<xsl:with-param name="addchecksum" select="$addchecksum"/>
+			<xsl:with-param name="print-text" select="$print-text"/>
+			<xsl:with-param name="text-color" select="$text-color"/>
+			<xsl:with-param name="module" select="$module"/>
+			<xsl:with-param name="wide-to-narrow" select="$wide-to-narrow"/>
+			<xsl:with-param name="height" select="$height"/>
+			<xsl:with-param name="quiet-horizontal" select="$quiet-horizontal"/>
+			<xsl:with-param name="quiet-vertical" select="$quiet-vertical"/>
+			<xsl:with-param name="font-family" select="$font-family"/>
+			<xsl:with-param name="font-weight" select="$font-weight"/>
+			<xsl:with-param name="font-style" select="$font-style"/>
+			<xsl:with-param name="font-height" select="$font-height"/>
+			<xsl:with-param name="barcode-color" select="$barcode-color"/>
+			<xsl:with-param name="text-block" select="$text-block"/>
+			<xsl:with-param name="text-char-space" select="$text-char-space"/>
+			<xsl:with-param name="orientation" select="$orientation"/>
+			<xsl:with-param name="value" select="$value"/>
+		</xsl:call-template>
+	</xsl:template>
+	<xsl:template name="barcode-3of9-extended">
+		<xsl:param name="value"/>
+		<xsl:param name="string"/>
+		<xsl:param name="print-text" select="'true'"/>
+		<xsl:param name="text-color" select="'black'"/>
+		<xsl:param name="addchecksum" select="'false'"/>
+		<xsl:param name="module" select="'0.305mm'"/>
+		<xsl:param name="wide-to-narrow" select="3.0"/>
+		<xsl:param name="height" select="'12.7mm'"/>
+		<xsl:param name="quiet-horizontal" select="'0.5mm'"/>
+		<xsl:param name="quiet-vertical" select="'0.5mm'"/>
+		<xsl:param name="font-family" select="'Arial'"/>
+		<xsl:param name="font-weight" select="'normal'"/>
+		<xsl:param name="font-style" select="'normal'"/>
+		<xsl:param name="font-height" select="'10pt'"/>
+		<xsl:param name="barcode-color" select="'black'"/>
+		<xsl:param name="text-block" select="'3.048mm'"/>
+		<xsl:param name="text-char-space" select="'0mm'"/>
+		<xsl:param name="orientation" select="0"/>
+		<xsl:variable name="value-transcoded">
+			<xsl:call-template name="code39-ascii2extended">
+				<xsl:with-param name="value" select="$value"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:call-template name="barcode-3of9">
+			<xsl:with-param name="value" select="$value-transcoded"/>
+			<xsl:with-param name="string" select="$string"/>
+			<xsl:with-param name="print-text" select="$print-text"/>
+			<xsl:with-param name="text-color" select="$text-color"/>
+			<xsl:with-param name="addchecksum" select="$addchecksum"/>
+			<xsl:with-param name="module" select="$module"/>
+			<xsl:with-param name="wide-to-narrow" select="$wide-to-narrow"/>
+			<xsl:with-param name="height" select="$height"/>
+			<xsl:with-param name="quiet-horizontal" select="$quiet-horizontal"/>
+			<xsl:with-param name="quiet-vertical" select="$quiet-vertical"/>
+			<xsl:with-param name="font-family" select="$font-family"/>
+			<xsl:with-param name="font-weight" select="$font-weight"/>
+			<xsl:with-param name="font-style" select="$font-style"/>
+			<xsl:with-param name="font-height" select="$font-height"/>
+			<xsl:with-param name="barcode-color" select="$barcode-color"/>
+			<xsl:with-param name="text-block" select="$text-block"/>
+			<xsl:with-param name="text-char-space" select="$text-char-space"/>
+			<xsl:with-param name="orientation" select="$orientation"/>
+		</xsl:call-template>
+	</xsl:template>
+	<xsl:template name="code39-checksum">
+		<xsl:param name="string"/>
+		<xsl:param name="sum" select="0"/>
+		<xsl:variable name="num" select="document('')//fov:code39-char2num/entry[@char=substring($string, 1, 1)]/text()"/>
+		<xsl:choose>
+			<xsl:when test="string-length($string) &gt; 1">
+				<xsl:call-template name="code39-checksum">
+					<xsl:with-param name="string" select="substring($string, 2)"/>
+					<xsl:with-param name="sum" select="$sum+$num"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="document('')//fov:code39-num2char/entry[@num=(($sum+$num) mod 43)]/text()"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="code39-char2bar_codec">
+		<xsl:param name="string"/>
+		<xsl:value-of select="document('')//fov:code39-char2bar/entry[@char=substring($string, 1, 1)]/text()"/>
+		<xsl:if test="string-length($string) &gt; 1">
+			<xsl:call-template name="code39-char2bar_codec">
+				<xsl:with-param name="string" select="substring($string, 2)"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="code39-ascii2extended">
+		<xsl:param name="value"/>
+		<xsl:variable name="charlen">
+			<xsl:choose>
+				<xsl:when test="starts-with($value, '%') and document('')//fov:code39-code2char/entry[@code=substring($value, 2,2)]">
+					<xsl:text>3</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>1</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$charlen &gt; 1">
+				<xsl:value-of select="document('')//fov:code39-code2char/entry[@code=substring($value, 2,2)]"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="substring($value, 1,1)"/>
+			</xsl:otherwise>
+		</xsl:choose>
+		<xsl:if test="string-length($value) &gt; $charlen">
+			<xsl:call-template name="code39-ascii2extended">
+				<xsl:with-param name="value" select="substring($value, $charlen+1)"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="code39-draw-barcode">
+		<xsl:param name="sequence" select="''"/>
+		<xsl:param name="string" select="''"/>
+		<xsl:param name="addchecksum" select="'false'"/>
+		<xsl:param name="print-text" select="'true'"/>
+		<xsl:param name="text-color" select="black"/>
+		<xsl:param name="module" select="'0.305mm'"/>
+		<xsl:param name="wide-to-narrow" select="3.0"/>
+		<xsl:param name="height" select="'12.7mm'"/>
+		<xsl:param name="quiet-horizontal" select="'0.5mm'"/>
+		<xsl:param name="quiet-vertical" select="'0.5mm'"/>
+		<xsl:param name="font-family" select="'Arial'"/>
+		<xsl:param name="font-weight" select="normal"/>
+		<xsl:param name="font-style" select="normal"/>
+		<xsl:param name="font-height" select="'10pt'"/>
+		<xsl:param name="barcode-color" select="'black'"/>
+		<xsl:param name="text-block" select="'3.048mm'"/>
+		<xsl:param name="text-char-space" select="'0mm'"/>
+		<xsl:param name="orientation" select="0"/>
+		<xsl:param name="value" select="''"/>
+		<xsl:variable name="narrow-real">
+			<xsl:call-template name="code39-convert-to-basic-units">
+				<xsl:with-param name="length" select="$module"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="wide-real" select="round($narrow-real * $wide-to-narrow)"/>
+		<xsl:variable name="height-real">
+			<xsl:call-template name="code39-convert-to-basic-units">
+				<xsl:with-param name="length" select="$height"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="quiet-horizontal-real">
+			<xsl:call-template name="code39-convert-to-basic-units">
+				<xsl:with-param name="length" select="$quiet-horizontal"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="text-block-real">
+			<xsl:call-template name="code39-convert-to-basic-units">
+				<xsl:with-param name="length" select="$text-block"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="text-char-space-real">
+			<xsl:call-template name="code39-convert-to-basic-units">
+				<xsl:with-param name="length" select="$text-char-space"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="quiet-vertical-real">
+			<xsl:call-template name="code39-convert-to-basic-units">
+				<xsl:with-param name="length" select="$quiet-vertical"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="font-height-real">
+			<xsl:call-template name="code39-convert-to-basic-units">
+				<xsl:with-param name="length" select="$font-height"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="line-height-real" select="round($font-height-real*1.2)*number($print-text='true')"/>
+		<xsl:variable name="length">
+			<xsl:value-of select="string-length($sequence) div 9"/>
+		</xsl:variable>
+		<xsl:variable name="code-width-real" select="$wide-real*(3*$length) + $narrow-real*(6*$length + $length - 1)"/>
+		<xsl:variable name="area-width-real" select="$code-width-real + 2*$quiet-horizontal-real"/>
+		<xsl:variable name="area-height-real" select="$height-real + $line-height-real + 2*$quiet-vertical-real + $text-block-real"/>
+		<xsl:variable name="code39-pi" select="3.141592653589793 div 180"/>
+		<xsl:variable name="area-width-real-transform">
+			<xsl:value-of select="((math:abs(math:cos($orientation  * $code39-pi)) * ($area-width-real div 2)) 
+						  + (math:abs(math:sin($orientation  * $code39-pi)) * ($area-height-real div 2))) * 2"/>
+		</xsl:variable>
+		<xsl:variable name="area-height-real-transform">
+			<xsl:value-of select="((math:abs(math:sin($orientation * $code39-pi)) * ($area-width-real div 2)) 
+						  + (math:abs(math:cos($orientation * $code39-pi)) * ($area-height-real div 2))) * 2"/>
+		</xsl:variable>
+		<xsl:variable name="area-x-transform">
+			<xsl:value-of select="- math:sin($orientation * $code39-pi) * (($area-height-real-transform - $area-height-real) div 2) + math:cos($orientation * $code39-pi) * (($area-width-real-transform - $area-width-real) div 2)"/>
+		</xsl:variable>
+		<xsl:variable name="area-y-transform">
+			<xsl:value-of select="math:cos($orientation * $code39-pi) * (($area-height-real-transform - $area-height-real) div 2) + math:sin($orientation * $code39-pi) * (($area-width-real-transform - $area-width-real) div 2)"/>
+		</xsl:variable>
+		<xsl:variable name="area-transform-string">
+			<xsl:value-of select="concat('rotate(', - $orientation, ' ', $area-width-real div 2, ' ', $area-height-real div 2,
+			') translate(', $area-x-transform, ' ', $area-y-transform, ')')"/>
+		</xsl:variable>
+		<svg:svg width="{concat($area-width-real-transform div 360, 'mm')}" height="{concat($area-height-real-transform div 360, 'mm')}" viewBox="{concat('0 0 ', $area-width-real-transform, ' ', $area-height-real-transform)}">
+			<desc>
+				<barcode value="{$value}" type="code39" addchecksum="{$addchecksum}"/>
+			</desc>
+			<svg:g transform="{$area-transform-string}">
+				<xsl:variable name="path">
+					<xsl:call-template name="code39-recursive-draw">
+						<xsl:with-param name="sequence" select="$sequence"/>
+						<xsl:with-param name="narrow-real" select="$narrow-real"/>
+						<xsl:with-param name="wide-real" select="$wide-real"/>
+						<xsl:with-param name="height-real" select="$height-real"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:variable name="full-path" select="concat('M ', $quiet-horizontal-real, ' ' , $quiet-vertical-real, $path)"/>
+				<svg:path d="{$full-path}" fill="{$barcode-color}" height="{$height}"/>
+				<xsl:if test="$print-text='true'">
+					<svg:text x="{$area-width-real div 2}" y="{$quiet-vertical-real*2 + $height-real + $font-height-real + $text-block-real}" text-anchor="middle" font-family="{$font-family}" font-size="{$font-height-real}" font-weight="{$font-weight}" font-style="{$font-style}" fill="{$text-color}">
+						<svg:tspan letter-spacing="{$text-char-space-real}">
+							<xsl:value-of select="$string"/>
+						</svg:tspan>
+					</svg:text>
+				</xsl:if>
+			</svg:g>
+		</svg:svg>
+	</xsl:template>
+	<xsl:template name="code39-recursive-draw">
+		<xsl:param name="sequence"/>
+		<xsl:param name="narrow-real"/>
+		<xsl:param name="wide-real"/>
+		<xsl:param name="height-real"/>
+		<xsl:param name="position" select="1"/>
+		<xsl:variable name="barstate" select="substring($sequence, 1, 1)"/>
+		<xsl:variable name="width">
+			<xsl:choose>
+				<xsl:when test="$barstate=1">
+					<xsl:value-of select="$wide-real"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$narrow-real"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$position mod 9 = 0 or (($position mod 9) mod 2) = 1">
+				<xsl:value-of select="concat(' l 0 ', $height-real, ' ', $width, ' 0 0 -', $height-real, ' z m ', $width, ' 0')"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat(' m ', $width, ' 0')"/>
+			</xsl:otherwise>
+		</xsl:choose>
+		<xsl:if test="($position mod 9) = 0 and string-length($sequence) &gt; 1">
+			<xsl:value-of select="concat(' m ', $narrow-real, ' 0')"/>
+		</xsl:if>
+		<xsl:if test="string-length($sequence) &gt; 1">
+			<xsl:call-template name="code39-recursive-draw">
+				<xsl:with-param name="sequence" select="substring($sequence,2)"/>
+				<xsl:with-param name="narrow-real" select="$narrow-real"/>
+				<xsl:with-param name="wide-real" select="$wide-real"/>
+				<xsl:with-param name="height-real" select="$height-real"/>
+				<xsl:with-param name="position" select="$position + 1"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="code39-convert-to-basic-units">
+		<xsl:param name="length"/>
+		<xsl:variable name="length-numeric-value" select="translate ($length, 'ptxcinme ', '')"/>
+		<xsl:variable name="length-unit" select="translate ($length, '-0123456789. ', '')"/>
+		<xsl:variable name="length-scale-factor">
+			<xsl:call-template name="code39-get-unit-scaling-factor">
+				<xsl:with-param name="unit" select="$length-unit"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:value-of select="round($length-numeric-value * $length-scale-factor)"/>
+	</xsl:template>
+	<xsl:template name="code39-get-unit-scaling-factor">
+		<xsl:param name="unit"/>
+		<xsl:choose>
+			<xsl:when test="$unit = 'cm'">3600</xsl:when>
+			<xsl:when test="$unit = 'mm'">360</xsl:when>
+			<xsl:when test="$unit = 'in'">9144</xsl:when>
+			<xsl:when test="$unit = 'pt'">127</xsl:when>
+			<xsl:when test="$unit = 'pc'">1524</xsl:when>
+			<xsl:when test="$unit = 'em'">
+				<xsl:text>1524</xsl:text>
+			</xsl:when>
+			<xsl:when test="$unit = 'ex'">
+				<xsl:text>700</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>360</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<fov:code39-char2bar>
+		<entry char="1">100100001</entry>
+		<entry char="2">001100001</entry>
+		<entry char="3">101100000</entry>
+		<entry char="4">000110001</entry>
+		<entry char="5">100110000</entry>
+		<entry char="6">001110000</entry>
+		<entry char="7">000100101</entry>
+		<entry char="8">100100100</entry>
+		<entry char="9">001100100</entry>
+		<entry char="0">000110100</entry>
+		<entry char="A">100001001</entry>
+		<entry char="B">001001001</entry>
+		<entry char="C">101001000</entry>
+		<entry char="D">000011001</entry>
+		<entry char="E">100011000</entry>
+		<entry char="F">001011000</entry>
+		<entry char="G">000001101</entry>
+		<entry char="H">100001100</entry>
+		<entry char="I">001001100</entry>
+		<entry char="J">000011100</entry>
+		<entry char="K">100000011</entry>
+		<entry char="L">001000011</entry>
+		<entry char="M">101000010</entry>
+		<entry char="N">000010011</entry>
+		<entry char="O">100010010</entry>
+		<entry char="P">001010010</entry>
+		<entry char="Q">000000111</entry>
+		<entry char="R">100000110</entry>
+		<entry char="S">001000110</entry>
+		<entry char="T">000010110</entry>
+		<entry char="U">110000001</entry>
+		<entry char="V">011000001</entry>
+		<entry char="W">111000000</entry>
+		<entry char="X">010010001</entry>
+		<entry char="Y">110010000</entry>
+		<entry char="Z">011010000</entry>
+		<entry char="-">010000101</entry>
+		<entry char="&#183;">110000100</entry>
+		<entry char=" ">011000100</entry>
+		<entry char="*">010010100</entry>
+		<entry char="$">010101000</entry>
+		<entry char="/">010100010</entry>
+		<entry char="+">010001010</entry>
+		<entry char="%">000101010</entry>
+	</fov:code39-char2bar>
+	<fov:code39-char2num>
+		<entry char="0">0</entry>
+		<entry char="1">1</entry>
+		<entry char="2">2</entry>
+		<entry char="3">3</entry>
+		<entry char="4">4</entry>
+		<entry char="5">5</entry>
+		<entry char="6">6</entry>
+		<entry char="7">7</entry>
+		<entry char="8">8</entry>
+		<entry char="9">9</entry>
+		<entry char="A">10</entry>
+		<entry char="B">11</entry>
+		<entry char="C">12</entry>
+		<entry char="D">13</entry>
+		<entry char="E">14</entry>
+		<entry char="F">15</entry>
+		<entry char="G">16</entry>
+		<entry char="H">17</entry>
+		<entry char="I">18</entry>
+		<entry char="J">19</entry>
+		<entry char="K">20</entry>
+		<entry char="L">21</entry>
+		<entry char="M">22</entry>
+		<entry char="N">23</entry>
+		<entry char="O">24</entry>
+		<entry char="P">25</entry>
+		<entry char="Q">26</entry>
+		<entry char="R">27</entry>
+		<entry char="S">28</entry>
+		<entry char="T">29</entry>
+		<entry char="U">30</entry>
+		<entry char="V">31</entry>
+		<entry char="W">32</entry>
+		<entry char="X">33</entry>
+		<entry char="Y">34</entry>
+		<entry char="Z">35</entry>
+		<entry char="-">36</entry>
+		<entry char="&#183;">37</entry>
+		<entry char=" ">38</entry>
+		<entry char="$">39</entry>
+		<entry char="/">40</entry>
+		<entry char="+">41</entry>
+		<entry char="%">42</entry>
+	</fov:code39-char2num>
+	<fov:code39-num2char>
+		<entry num="0">0</entry>
+		<entry num="1">1</entry>
+		<entry num="2">2</entry>
+		<entry num="3">3</entry>
+		<entry num="4">4</entry>
+		<entry num="5">5</entry>
+		<entry num="6">6</entry>
+		<entry num="7">7</entry>
+		<entry num="8">8</entry>
+		<entry num="9">9</entry>
+		<entry num="10">A</entry>
+		<entry num="11">B</entry>
+		<entry num="12">C</entry>
+		<entry num="13">D</entry>
+		<entry num="14">E</entry>
+		<entry num="15">F</entry>
+		<entry num="16">G</entry>
+		<entry num="17">H</entry>
+		<entry num="18">I</entry>
+		<entry num="19">J</entry>
+		<entry num="20">K</entry>
+		<entry num="21">L</entry>
+		<entry num="22">M</entry>
+		<entry num="23">N</entry>
+		<entry num="24">O</entry>
+		<entry num="25">P</entry>
+		<entry num="26">Q</entry>
+		<entry num="27">R</entry>
+		<entry num="28">S</entry>
+		<entry num="29">T</entry>
+		<entry num="30">U</entry>
+		<entry num="31">V</entry>
+		<entry num="32">W</entry>
+		<entry num="33">X</entry>
+		<entry num="34">Y</entry>
+		<entry num="35">Z</entry>
+		<entry num="36">-</entry>
+		<entry num="37">&#183;</entry>
+		<entry num="38"> </entry>
+		<entry num="39">$</entry>
+		<entry num="40">/</entry>
+		<entry num="41">+</entry>
+		<entry num="42">%</entry>
+	</fov:code39-num2char>
+	<fov:code39-code2char>
+		<entry code="00">%U</entry>
+		<entry code="01">$A</entry>
+		<entry code="02">$B</entry>
+		<entry code="03">$C</entry>
+		<entry code="04">$D</entry>
+		<entry code="05">$E</entry>
+		<entry code="06">$F</entry>
+		<entry code="07">$G</entry>
+		<entry code="08">$H</entry>
+		<entry code="09">$I</entry>
+		<entry code="0A">$J</entry>
+		<entry code="0B">$K</entry>
+		<entry code="0C">$L</entry>
+		<entry code="0D">$M</entry>
+		<entry code="0E">$N</entry>
+		<entry code="0F">$O</entry>
+		<entry code="10">$P</entry>
+		<entry code="11">$Q</entry>
+		<entry code="12">$R</entry>
+		<entry code="13">$S</entry>
+		<entry code="06">$T</entry>
+		<entry code="15">$U</entry>
+		<entry code="16">$V</entry>
+		<entry code="17">$W</entry>
+		<entry code="18">$X</entry>
+		<entry code="19">$Y</entry>
+		<entry code="1A">$Z</entry>
+		<entry code="1B">%A</entry>
+		<entry code="1C">%B</entry>
+		<entry code="1D">%C</entry>
+		<entry code="1E">%D</entry>
+		<entry code="1F">%E</entry>
+		<entry code="20"> </entry>
+		<entry code="21">/A</entry>
+		<entry code="22">/B</entry>
+		<entry code="23">/C</entry>
+		<entry code="24">/D</entry>
+		<entry code="25">/E</entry>
+		<entry code="26">/F</entry>
+		<entry code="27">/G</entry>
+		<entry code="28">/H</entry>
+		<entry code="29">/I</entry>
+		<entry code="2A">/J</entry>
+		<entry code="2B">/K</entry>
+		<entry code="2C">/L</entry>
+		<entry code="2D">-</entry>
+		<entry code="2E">.</entry>
+		<entry code="2F">/O</entry>
+		<entry code="30">0</entry>
+		<entry code="31">1</entry>
+		<entry code="32">2</entry>
+		<entry code="33">3</entry>
+		<entry code="34">4</entry>
+		<entry code="35">5</entry>
+		<entry code="36">6</entry>
+		<entry code="37">7</entry>
+		<entry code="38">8</entry>
+		<entry code="39">9</entry>
+		<entry code="3A">/Z</entry>
+		<entry code="3B">%F</entry>
+		<entry code="3C">%G</entry>
+		<entry code="3D">%H</entry>
+		<entry code="3E">%I</entry>
+		<entry code="3F">%J</entry>
+		<entry code="40">%V</entry>
+		<entry code="41">A</entry>
+		<entry code="42">B</entry>
+		<entry code="43">C</entry>
+		<entry code="44">D</entry>
+		<entry code="45">E</entry>
+		<entry code="46">F</entry>
+		<entry code="47">G</entry>
+		<entry code="48">H</entry>
+		<entry code="49">I</entry>
+		<entry code="4A">J</entry>
+		<entry code="4B">K</entry>
+		<entry code="4C">L</entry>
+		<entry code="4D">M</entry>
+		<entry code="4E">N</entry>
+		<entry code="4F">O</entry>
+		<entry code="50">P</entry>
+		<entry code="51">Q</entry>
+		<entry code="52">R</entry>
+		<entry code="53">S</entry>
+		<entry code="54">T</entry>
+		<entry code="55">U</entry>
+		<entry code="56">V</entry>
+		<entry code="57">W</entry>
+		<entry code="58">X</entry>
+		<entry code="59">Y</entry>
+		<entry code="5A">Z</entry>
+		<entry code="5B">%K</entry>
+		<entry code="5C">%L</entry>
+		<entry code="5D">%M</entry>
+		<entry code="5E">%N</entry>
+		<entry code="5F">%O</entry>
+		<entry code="60">%W</entry>
+		<entry code="61">+A</entry>
+		<entry code="62">+B</entry>
+		<entry code="63">+C</entry>
+		<entry code="64">+D</entry>
+		<entry code="65">+E</entry>
+		<entry code="66">+F</entry>
+		<entry code="67">+G</entry>
+		<entry code="68">+H</entry>
+		<entry code="69">+I</entry>
+		<entry code="6A">+J</entry>
+		<entry code="6B">+K</entry>
+		<entry code="6C">+L</entry>
+		<entry code="6D">+M</entry>
+		<entry code="6E">+N</entry>
+		<entry code="6F">+O</entry>
+		<entry code="70">+P</entry>
+		<entry code="71">+Q</entry>
+		<entry code="72">+R</entry>
+		<entry code="73">+S</entry>
+		<entry code="74">+T</entry>
+		<entry code="75">+U</entry>
+		<entry code="76">+V</entry>
+		<entry code="77">+W</entry>
+		<entry code="78">+X</entry>
+		<entry code="79">+Y</entry>
+		<entry code="7A">+Z</entry>
+		<entry code="7B">%P</entry>
+		<entry code="7C">%Q</entry>
+		<entry code="7D">%R</entry>
+		<entry code="7E">%S</entry>
+		<entry code="7F">%T</entry>
+	</fov:code39-code2char>
+

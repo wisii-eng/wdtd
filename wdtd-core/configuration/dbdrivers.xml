@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<driverdb>
+	<driver>
+		<name value="Oracle Thin"/>
+		<url value="jdbc:oracle:thin:@host:1521:sid"/>
+		<classname value="oracle.jdbc.driver.OracleDriver"/>
+	</driver>
+	<driver>
+		<name value="IBM DB2"/>
+		<url value="jdbc:db2://HOST:50000/databasename"/>
+		<classname value="com.ibm.db2.jcc.DB2Driver"/>
+	</driver>
+	<driver>
+		<name value="MSQL Server"/>
+		<url value="jdbc:jtds:sqlserver|sybase://server:1433/database"/>
+		<classname value="net.sourceforge.jtds.jdbc.Driver"/>
+	</driver>
+	<driver>
+		<name value="MySQL"/>
+		<url value="jdbc:mysql://localhost:3306/mytest"/>
+		<classname value="com.mysql.jdbc.Driver"/>
+	</driver>
+	<driver>
+		<name value="PostgreSQL"/>
+		<url value="jdbc:postgresql://host:5432/database"/>
+		<classname value="org.postgresql.Driver"/>
+	</driver>
+</driverdb>

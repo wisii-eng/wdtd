@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>wdtd</artifactId>
+		<groupId>com.wisii</groupId>
+		<version>2.0.1</version>
+	</parent>
+
+	<groupId>com.wisii</groupId>
+	<artifactId>wdtd-core</artifactId>
+	<version>2.0.1</version>
+
+	<name>wdtd-core</name>
+	<url>https://www.wisii.com</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.krysalis</groupId>
+			<artifactId>barcode4j</artifactId>
+			<version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/barcode4j.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>jbcl</groupId>
+			<artifactId>jbcl</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jbcl-awt.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.l2fprod</groupId>
+			<artifactId>l2fprod-common-all</artifactId>
+			<version>7.3</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/l2fprod-common-all.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>jsyntaxpane</groupId>
+			<artifactId>jsyntaxpane</artifactId>
+			<version>0.9.5-b29</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jsyntaxpane-0.9.5-b29.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>date.extract</groupId>
+			<artifactId>date-extract</artifactId>
+			<version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/date-extract.jar</systemPath>
+		</dependency>
+		
+		<!-- avalon-->
+		<dependency>
+			<groupId>org.apache.avalon.framework</groupId>
+			<artifactId>avalon-framework-api</artifactId>
+			<version>4.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.avalon.framework</groupId>
+			<artifactId>avalon-framework-impl</artifactId>
+			<version>4.3.1</version>
+		</dependency>
+		<!-- batik deps -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-all</artifactId>
+			<version>${batik.version}</version>
+		</dependency>
+		<!-- xmlgraphics external deps -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons.io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons.logging.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.dom4j/dom4j -->
+		<dependency>
+			<groupId>org.dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>2.1.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jfree/jfreechart -->
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.14</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jfree/jcommon -->
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jcommon</artifactId>
+			<version>1.0.17</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.jtds/jtds -->
+		<dependency>
+			<groupId>net.sourceforge.jtds</groupId>
+			<artifactId>jtds</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>9.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>19.25.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4.1212</version>
+		</dependency>
+		<!-- serializer -->
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>serializer</artifactId>
+			<version>2.7.3</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/xml-apis/xml-apis-ext -->
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis-ext</artifactId>
+			<version>1.3.04</version>
+		</dependency>
+		<!-- xgc deps -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>xmlgraphics-commons</artifactId>
+			<version>${xmlgraphics.commons.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<defaultGoal>compile</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

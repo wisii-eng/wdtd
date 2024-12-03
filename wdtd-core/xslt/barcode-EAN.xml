@@ -1,0 +1,840 @@
+
+	<xsl:template name="barcode-EAN">
+		<xsl:param name="value"/>
+		<xsl:param name="code-type" select="'auto'"/>
+		<xsl:param name="module" select="'0.33mm'"/>
+		<xsl:param name="height" select="'auto'"/>
+		<xsl:param name="text-color" select="'black'"/>
+		<xsl:param name="barcode-color" select="'black'"/>
+		<xsl:param name="font-family" select="'Arial'"/>
+		<xsl:param name="font-height" select="'10pt'"/>
+		<xsl:param name="font-weight" select="'normal'"/>
+		<xsl:param name="font-style" select="'normal'"/>
+		<xsl:param name="quiet-horizontal" select="'0.5mm'"/>
+		<xsl:param name="quiet-vertical" select="'0.5mm'"/>
+		<xsl:param name="text-block" select="'0mm'"/>
+		<xsl:param name="text-char-space" select="'0mm'"/>
+		<xsl:param name="orientation" select="'0'"/>
+		<xsl:variable name="cleaned-value" select="translate ($value, ' &#x9;&#xA;-,.:;', '')"/>
+		<xsl:variable name="cleaned-value-length" select="string-length($cleaned-value)"/>
+		<xsl:variable name="real-code-type">
+			<xsl:choose>
+				<xsl:when test="$code-type != 'auto'">
+					<xsl:choose>
+						<xsl:when test="$code-type = 'UPC-A'  or $code-type = 'UPC-E'
+                       or $code-type = 'EAN-13' or $code-type = 'EAN-8'">
+							<xsl:value-of select="$code-type"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>ERROR</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="$cleaned-value-length = 6">UPC-E</xsl:when>
+				<xsl:when test="$cleaned-value-length = 7">EAN-8</xsl:when>
+				<xsl:when test="$cleaned-value-length = 11">UPC-A</xsl:when>
+				<xsl:when test="$cleaned-value-length = 12">EAN-13</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>ERROR</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="real-value">
+			<xsl:choose>
+				<xsl:when test="$real-code-type = 'UPC-E' and $cleaned-value-length = 6">
+					<xsl:value-of select="concat('0', $cleaned-value)"/>
+				</xsl:when>
+				<xsl:when test="$cleaned-value-length = 6  or $cleaned-value-length = 7
+                   or $cleaned-value-length = 11 or $cleaned-value-length = 12">
+					<xsl:value-of select="$cleaned-value"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>ERROR</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="module-numeric-value" select="translate ($module, 'ptxcinme ', '')"/>
+		<xsl:variable name="module-unit" select="translate ($module, '-0123456789. ', '')"/>
+		<xsl:variable name="module-real">
+			<xsl:call-template name="codeEAN-convert-to-basic-units">
+				<xsl:with-param name="length" select="$module"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="real-height">
+			<xsl:choose>
+				<xsl:when test="$height != 'auto'">
+					<xsl:call-template name="codeEAN-convert-height-to-module-units">
+						<xsl:with-param name="module-numeric-value" select="$module-numeric-value"/>
+						<xsl:with-param name="module-unit" select="$module-unit"/>
+						<xsl:with-param name="height" select="$height"/>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:when test="$real-code-type = 'EAN-8'">56</xsl:when>
+				<xsl:otherwise>70</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="text-block-real">
+			<xsl:call-template name="codeEAN-convert-height-to-module-units">
+				<xsl:with-param name="module-numeric-value" select="$module-numeric-value"/>
+				<xsl:with-param name="module-unit" select="$module-unit"/>
+				<xsl:with-param name="height" select="$text-block"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="text-char-space-real">
+			<xsl:call-template name="codeEAN-convert-height-to-module-units">
+				<xsl:with-param name="module-numeric-value" select="$module-numeric-value"/>
+				<xsl:with-param name="module-unit" select="$module-unit"/>
+				<xsl:with-param name="height" select="$text-char-space"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="font-height-real">
+			<xsl:call-template name="codeEAN-convert-height-to-module-units">
+				<xsl:with-param name="module-numeric-value" select="$module-numeric-value"/>
+				<xsl:with-param name="module-unit" select="$module-unit"/>
+				<xsl:with-param name="height" select="$font-height"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="quiet-horizontal-real">
+			<xsl:call-template name="codeEAN-convert-height-to-module-units">
+				<xsl:with-param name="module-numeric-value" select="$module-numeric-value"/>
+				<xsl:with-param name="module-unit" select="$module-unit"/>
+				<xsl:with-param name="height" select="$quiet-horizontal"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="quiet-vertical-real">
+			<xsl:call-template name="codeEAN-convert-height-to-module-units">
+				<xsl:with-param name="module-numeric-value" select="$module-numeric-value"/>
+				<xsl:with-param name="module-unit" select="$module-unit"/>
+				<xsl:with-param name="height" select="$quiet-vertical"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="(string-length($real-value) = 7 and $real-code-type = 'EAN-8')
+                 or (string-length($real-value) = 11 and $real-code-type = 'UPC-A')
+                 or (string-length($real-value) = 12 and $real-code-type = 'EAN-13')
+                 or (string-length($real-value) = 7 and $real-code-type = 'UPC-E'
+                    and (substring($real-value, 1, 1) = '0'
+                      or substring($real-value, 1, 1) = '1'))">
+				<xsl:variable name="check-digit">
+					<xsl:call-template name="codeEAN-check-digit">
+						<xsl:with-param name="value" select="$real-value"/>
+						<xsl:with-param name="code-type" select="$real-code-type"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:call-template name="barcode-EAN-cleaned">
+					<xsl:with-param name="value" select="concat($real-value, $check-digit)"/>
+					<xsl:with-param name="unit" select="$module-unit"/>
+					<xsl:with-param name="module" select="$module-real"/>
+					<xsl:with-param name="height" select="$real-height"/>
+					<xsl:with-param name="code-type" select="$real-code-type"/>
+					<xsl:with-param name="text-color" select="$text-color"/>
+					<xsl:with-param name="barcode-color" select="$barcode-color"/>
+					<xsl:with-param name="font-family" select="$font-family"/>
+					<xsl:with-param name="font-height" select="$font-height-real"/>
+					<xsl:with-param name="font-weight" select="$font-weight"/>
+					<xsl:with-param name="font-style" select="$font-style"/>
+					<xsl:with-param name="text-block" select="$text-block-real"/>
+					<xsl:with-param name="text-char-space" select="$text-char-space-real"/>
+					<xsl:with-param name="quiet-horizontal" select="$quiet-horizontal-real"/>
+					<xsl:with-param name="quiet-vertical" select="$quiet-vertical-real"/>
+					<xsl:with-param name="orientation" select="$orientation"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="codeEAN-draw-error-message"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="barcode-EAN-cleaned">
+		<xsl:param name="value"/>
+		<xsl:param name="code-type"/>
+		<xsl:param name="module"/>
+		<xsl:param name="height"/>
+		<xsl:param name="unit"/>
+		<xsl:param name="text-color"/>
+		<xsl:param name="barcode-color"/>
+		<xsl:param name="font-family"/>
+		<xsl:param name="font-height"/>
+		<xsl:param name="font-weight"/>
+		<xsl:param name="font-style"/>
+		<xsl:param name="text-block"/>
+		<xsl:param name="text-char-space"/>
+		<xsl:param name="quiet-horizontal"/>
+		<xsl:param name="quiet-vertical"/>
+		<xsl:param name="orientation"/>
+		<xsl:variable name="first-digit">
+			<xsl:call-template name="codeEAN-get-first-digit">
+				<xsl:with-param name="value" select="$value"/>
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="last-digit">
+			<xsl:call-template name="codeEAN-get-last-digit">
+				<xsl:with-param name="value" select="$value"/>
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="left-digits">
+			<xsl:call-template name="codeEAN-get-left-side-digits">
+				<xsl:with-param name="value" select="$value"/>
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="right-digits">
+			<xsl:call-template name="codeEAN-get-right-side-digits">
+				<xsl:with-param name="value" select="$value"/>
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="bar-and-space-widths">
+			<xsl:call-template name="codeEAN-get-bar-space-width">
+				<xsl:with-param name="value" select="$value"/>
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="bar-heights">
+			<xsl:call-template name="codeEAN-get-bar-height">
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="leading-guards-width">
+			<xsl:call-template name="codeEAN-get-leading-guards-width">
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="trailing-guards-width">
+			<xsl:call-template name="codeEAN-get-trailing-guards-width">
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="center-guards-width">
+			<xsl:call-template name="codeEAN-get-center-guards-width">
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="left-short-bars-width">
+			<xsl:call-template name="codeEAN-get-left-short-bars-width">
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="right-short-bars-width">
+			<xsl:call-template name="codeEAN-get-right-short-bars-width">
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="short-bars-in-group">
+			<xsl:call-template name="codeEAN-count-short-bars-in-group">
+				<xsl:with-param name="code-type" select="$code-type"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:call-template name="codeEAN-draw-barcode-EAN">
+			<xsl:with-param name="module" select="$module"/>
+			<xsl:with-param name="unit" select="''"/>
+			<xsl:with-param name="height" select="$height"/>
+			<xsl:with-param name="text-color" select="$text-color"/>
+			<xsl:with-param name="barcode-color" select="$barcode-color"/>
+			<xsl:with-param name="font-family" select="$font-family"/>
+			<xsl:with-param name="font-height" select="$font-height"/>
+			<xsl:with-param name="font-weight" select="$font-weight"/>
+			<xsl:with-param name="font-style" select="$font-style"/>
+			<xsl:with-param name="text-block" select="$text-block"/>
+			<xsl:with-param name="text-char-space" select="$text-char-space"/>
+			<xsl:with-param name="quiet-horizontal" select="$quiet-horizontal"/>
+			<xsl:with-param name="quiet-vertical" select="$quiet-vertical"/>
+			<xsl:with-param name="orientation" select="$orientation"/>
+			<xsl:with-param name="first-digit" select="normalize-space($first-digit)"/>
+			<xsl:with-param name="last-digit" select="normalize-space($last-digit)"/>
+			<xsl:with-param name="left-digits" select="normalize-space($left-digits)"/>
+			<xsl:with-param name="right-digits" select="normalize-space($right-digits)"/>
+			<xsl:with-param name="bar-and-space-widths" select="$bar-and-space-widths"/>
+			<xsl:with-param name="bar-heights" select="$bar-heights"/>
+			<xsl:with-param name="leading-guards-width" select="$leading-guards-width"/>
+			<xsl:with-param name="trailing-guards-width" select="$trailing-guards-width"/>
+			<xsl:with-param name="center-guards-width" select="$center-guards-width"/>
+			<xsl:with-param name="left-short-bars-width" select="$left-short-bars-width"/>
+			<xsl:with-param name="right-short-bars-width" select="$right-short-bars-width"/>
+			<xsl:with-param name="short-bars-in-group" select="$short-bars-in-group"/>
+			<xsl:with-param name="barcode-type" select="$code-type"/>
+		</xsl:call-template>
+	</xsl:template>
+	<xsl:template name="codeEAN-check-digit">
+		<xsl:param name="value"/>
+		<xsl:param name="code-type"/>
+		<xsl:param name="text-color"/>
+		<xsl:variable name="real-value">
+			<xsl:choose>
+				<xsl:when test="$code-type = 'UPC-E'">
+					<xsl:variable name="last-digit" select="substring($value, 7, 1)"/>
+					<xsl:choose>
+						<xsl:when test="$last-digit='0' or $last-digit='1' or $last-digit='2'">
+							<xsl:value-of select="concat(substring($value, 1, 3),
+                                         $last-digit, '0000',
+                                         substring($value, 4, 3))"/>
+						</xsl:when>
+						<xsl:when test="$last-digit='3'">
+							<xsl:value-of select="concat(substring($value, 1, 4),
+                                         '00000',
+                                         substring($value, 5, 2))"/>
+						</xsl:when>
+						<xsl:when test="$last-digit='4'">
+							<xsl:value-of select="concat(substring($value, 1, 5),
+                                         '00000',
+                                         substring($value, 6, 1))"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="concat(substring($value, 1, 6),
+                                         '0000',
+                                         substring($value, 7, 1))"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$value"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="sum-odds">
+			<xsl:choose>
+				<xsl:when test="$code-type = 'EAN-13'">
+					<xsl:variable name="d2" select="number(substring($real-value, 2, 1))"/>
+					<xsl:variable name="d4" select="number(substring($real-value, 4, 1))"/>
+					<xsl:variable name="d6" select="number(substring($real-value, 6, 1))"/>
+					<xsl:variable name="d8" select="number(substring($real-value, 8, 1))"/>
+					<xsl:variable name="d10" select="number(substring($real-value, 10, 1))"/>
+					<xsl:variable name="d12" select="number(substring($real-value, 12, 1))"/>
+					<xsl:value-of select="$d2 + $d4 + $d6 + $d8 + $d10 + $d12"/>
+				</xsl:when>
+				<xsl:when test="$code-type = 'UPC-A' or $code-type = 'UPC-E'">
+					<xsl:variable name="d1" select="number(substring($real-value, 1, 1))"/>
+					<xsl:variable name="d3" select="number(substring($real-value, 3, 1))"/>
+					<xsl:variable name="d5" select="number(substring($real-value, 5, 1))"/>
+					<xsl:variable name="d7" select="number(substring($real-value, 7, 1))"/>
+					<xsl:variable name="d9" select="number(substring($real-value, 9, 1))"/>
+					<xsl:variable name="d11" select="number(substring($real-value, 11, 1))"/>
+					<xsl:value-of select="$d1 + $d3 + $d5 + $d7 + $d9 + $d11"/>
+				</xsl:when>
+				<xsl:when test="$code-type = 'EAN-8'">
+					<xsl:variable name="d1" select="number(substring($real-value, 1, 1))"/>
+					<xsl:variable name="d3" select="number(substring($real-value, 3, 1))"/>
+					<xsl:variable name="d5" select="number(substring($real-value, 5, 1))"/>
+					<xsl:variable name="d7" select="number(substring($real-value, 7, 1))"/>
+					<xsl:value-of select="$d1 + $d3 + $d5 + $d7"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="sum-evens">
+			<xsl:choose>
+				<xsl:when test="$code-type = 'EAN-13'">
+					<xsl:variable name="d1" select="number(substring($real-value, 1, 1))"/>
+					<xsl:variable name="d3" select="number(substring($real-value, 3, 1))"/>
+					<xsl:variable name="d5" select="number(substring($real-value, 5, 1))"/>
+					<xsl:variable name="d7" select="number(substring($real-value, 7, 1))"/>
+					<xsl:variable name="d9" select="number(substring($real-value, 9, 1))"/>
+					<xsl:variable name="d11" select="number(substring($real-value, 11, 1))"/>
+					<xsl:value-of select="$d1 + $d3 + $d5 + $d7 + $d9 + $d11"/>
+				</xsl:when>
+				<xsl:when test="$code-type = 'UPC-A' or $code-type = 'UPC-E'">
+					<xsl:variable name="d2" select="number(substring($real-value, 2, 1))"/>
+					<xsl:variable name="d4" select="number(substring($real-value, 4, 1))"/>
+					<xsl:variable name="d6" select="number(substring($real-value, 6, 1))"/>
+					<xsl:variable name="d8" select="number(substring($real-value, 8, 1))"/>
+					<xsl:variable name="d10" select="number(substring($real-value, 10, 1))"/>
+					<xsl:value-of select="$d2 + $d4 + $d6 + $d8 + $d10"/>
+				</xsl:when>
+				<xsl:when test="$code-type = 'EAN-8'">
+					<xsl:variable name="d2" select="number(substring($real-value, 2, 1))"/>
+					<xsl:variable name="d4" select="number(substring($real-value, 4, 1))"/>
+					<xsl:variable name="d6" select="number(substring($real-value, 6, 1))"/>
+					<xsl:value-of select="$d2 + $d4 + $d6"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="total-sum" select="($sum-odds * 3) + $sum-evens"/>
+		<xsl:value-of select="(10 - ($total-sum mod 10)) mod 10"/>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-bar-space-width">
+		<xsl:param name="value"/>
+		<xsl:param name="code-type"/>
+		<xsl:variable name="left-pattern">
+			<xsl:choose>
+				<xsl:when test="$code-type = 'UPC-A'">AAAAAA</xsl:when>
+				<xsl:when test="$code-type = 'EAN-8'">AAAA</xsl:when>
+				<xsl:when test="$code-type = 'EAN-13'">
+					<xsl:call-template name="codeEAN-get-pattern-EAN-13">
+						<xsl:with-param name="switch" select="substring($value,1,1)"/>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:when test="$code-type = 'UPC-E' and substring($value, 1, 1) = '0'">
+					<xsl:call-template name="codeEAN-get-pattern-UPC-E0">
+						<xsl:with-param name="switch" select="substring($value,string-length($value),1)"/>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:when test="$code-type = 'UPC-E' and substring($value, 1, 1) = '1'">
+					<xsl:call-template name="codeEAN-get-pattern-UPC-E1">
+						<xsl:with-param name="switch" select="substring($value,string-length($value),1)"/>
+					</xsl:call-template>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="right-pattern">
+			<xsl:choose>
+				<xsl:when test="$code-type = 'EAN-13'">AAAAAA</xsl:when>
+				<xsl:when test="$code-type = 'UPC-A'">AAAAAA</xsl:when>
+				<xsl:when test="$code-type = 'EAN-8'">AAAA</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="left-value">
+			<xsl:choose>
+				<xsl:when test="$code-type = 'EAN-13' or $code-type = 'UPC-E'">
+					<xsl:value-of select="substring($value, 2, 6)"/>
+				</xsl:when>
+				<xsl:when test="$code-type = 'UPC-A'">
+					<xsl:value-of select="substring($value, 1, 6)"/>
+				</xsl:when>
+				<xsl:when test="$code-type = 'EAN-8'">
+					<xsl:value-of select="substring($value, 1, 4)"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="right-value">
+			<xsl:choose>
+				<xsl:when test="$code-type = 'EAN-13'">
+					<xsl:value-of select="substring($value, 8, 6)"/>
+				</xsl:when>
+				<xsl:when test="$code-type = 'UPC-A'">
+					<xsl:value-of select="substring($value, 7, 6)"/>
+				</xsl:when>
+				<xsl:when test="$code-type = 'EAN-8'">
+					<xsl:value-of select="substring($value, 5, 4)"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:text>111</xsl:text>
+		<xsl:call-template name="codeEAN-emit-EAN-character-patterns">
+			<xsl:with-param name="value" select="$left-value"/>
+			<xsl:with-param name="pattern" select="$left-pattern"/>
+		</xsl:call-template>
+		<xsl:choose>
+			<xsl:when test="$code-type = 'UPC-E'">
+				<xsl:text>111111</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>11111</xsl:text>
+				<xsl:call-template name="codeEAN-emit-EAN-character-patterns">
+					<xsl:with-param name="value" select="$right-value"/>
+					<xsl:with-param name="pattern" select="$right-pattern"/>
+				</xsl:call-template>
+				<xsl:text>111</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-bar-height">
+		<xsl:param name="code-type"/>
+		<xsl:choose>
+			<xsl:when test="$code-type='EAN-13'">||............||............||</xsl:when>
+			<xsl:when test="$code-type='UPC-A'">||||..........||..........||||</xsl:when>
+			<xsl:when test="$code-type='EAN-8'">||........||........||</xsl:when>
+			<xsl:when test="$code-type='UPC-E'">||............|||</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-leading-guards-width">
+		<xsl:param name="code-type"/>
+		<xsl:choose>
+			<xsl:when test="$code-type='UPC-A'">10</xsl:when>
+			<xsl:otherwise>3</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-trailing-guards-width">
+		<xsl:param name="code-type"/>
+		<xsl:choose>
+			<xsl:when test="$code-type='UPC-A'">10</xsl:when>
+			<xsl:when test="$code-type='UPC-E'">5</xsl:when>
+			<xsl:otherwise>3</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-center-guards-width">
+		<xsl:param name="code-type"/>
+		<xsl:choose>
+			<xsl:when test="$code-type='UPC-E'">0</xsl:when>
+			<xsl:otherwise>3</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-left-short-bars-width">
+		<xsl:param name="code-type"/>
+		<xsl:choose>
+			<xsl:when test="$code-type='UPC-A'">36</xsl:when>
+			<xsl:when test="$code-type='EAN-8'">29</xsl:when>
+			<xsl:otherwise>43</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-right-short-bars-width">
+		<xsl:param name="code-type"/>
+		<xsl:choose>
+			<xsl:when test="$code-type='UPC-E'">0</xsl:when>
+			<xsl:when test="$code-type='UPC-A'">36</xsl:when>
+			<xsl:when test="$code-type='EAN-8'">29</xsl:when>
+			<xsl:otherwise>43</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-count-short-bars-in-group">
+		<xsl:param name="code-type"/>
+		<xsl:choose>
+			<xsl:when test="$code-type='UPC-A'">10</xsl:when>
+			<xsl:when test="$code-type='EAN-8'">8</xsl:when>
+			<xsl:otherwise>12</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-first-digit">
+		<xsl:param name="value"/>
+		<xsl:param name="code-type"/>
+		<xsl:if test="$code-type != 'EAN-8'">
+			<xsl:value-of select="substring($value, 1, 1)"/>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-last-digit">
+		<xsl:param name="value"/>
+		<xsl:param name="code-type"/>
+		<xsl:if test="$code-type = 'UPC-A' or $code-type = 'UPC-E'">
+			<xsl:value-of select="substring($value, string-length($value), 1)"/>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-left-side-digits">
+		<xsl:param name="value"/>
+		<xsl:param name="code-type"/>
+		<xsl:choose>
+			<xsl:when test="$code-type = 'EAN-13' or $code-type = 'UPC-E'">
+				<xsl:value-of select="substring($value, 2, 6)"/>
+			</xsl:when>
+			<xsl:when test="$code-type = 'UPC-A'">
+				<xsl:value-of select="substring($value, 2, 5)"/>
+			</xsl:when>
+			<xsl:when test="$code-type = 'EAN-8'">
+				<xsl:value-of select="substring($value, 1, 4)"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-right-side-digits">
+		<xsl:param name="value"/>
+		<xsl:param name="code-type"/>
+		<xsl:choose>
+			<xsl:when test="$code-type = 'EAN-13'">
+				<xsl:value-of select="substring($value, 8, 6)"/>
+			</xsl:when>
+			<xsl:when test="$code-type = 'UPC-A'">
+				<xsl:value-of select="substring($value, 7, 5)"/>
+			</xsl:when>
+			<xsl:when test="$code-type = 'EAN-8'">
+				<xsl:value-of select="substring($value, 5, 4)"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-pattern-EAN-13">
+		<xsl:param name="switch"/>
+		<xsl:choose>
+			<xsl:when test="$switch='0'">AAAAAA</xsl:when>
+			<xsl:when test="$switch='1'">AABABB</xsl:when>
+			<xsl:when test="$switch='2'">AABBAB</xsl:when>
+			<xsl:when test="$switch='3'">AABBBA</xsl:when>
+			<xsl:when test="$switch='4'">ABAABB</xsl:when>
+			<xsl:when test="$switch='5'">ABBAAB</xsl:when>
+			<xsl:when test="$switch='6'">ABBBAA</xsl:when>
+			<xsl:when test="$switch='7'">ABABAB</xsl:when>
+			<xsl:when test="$switch='8'">ABABBA</xsl:when>
+			<xsl:when test="$switch='9'">ABBABA</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-pattern-UPC-E0">
+		<xsl:param name="switch"/>
+		<xsl:choose>
+			<xsl:when test="$switch='0'">BBBAAA</xsl:when>
+			<xsl:when test="$switch='1'">BBABAA</xsl:when>
+			<xsl:when test="$switch='2'">BBAABA</xsl:when>
+			<xsl:when test="$switch='3'">BBAAAB</xsl:when>
+			<xsl:when test="$switch='4'">BABBAA</xsl:when>
+			<xsl:when test="$switch='5'">BAABBA</xsl:when>
+			<xsl:when test="$switch='6'">BAAABB</xsl:when>
+			<xsl:when test="$switch='7'">BABABA</xsl:when>
+			<xsl:when test="$switch='8'">BABAAB</xsl:when>
+			<xsl:when test="$switch='9'">BAABAB</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-pattern-UPC-E1">
+		<xsl:param name="switch"/>
+		<xsl:choose>
+			<xsl:when test="$switch='0'">AAABBB</xsl:when>
+			<xsl:when test="$switch='1'">AABABB</xsl:when>
+			<xsl:when test="$switch='2'">AABBAB</xsl:when>
+			<xsl:when test="$switch='3'">AABBBA</xsl:when>
+			<xsl:when test="$switch='4'">ABAABB</xsl:when>
+			<xsl:when test="$switch='5'">ABBAAB</xsl:when>
+			<xsl:when test="$switch='6'">ABBBAA</xsl:when>
+			<xsl:when test="$switch='7'">ABABAB</xsl:when>
+			<xsl:when test="$switch='8'">ABABBA</xsl:when>
+			<xsl:when test="$switch='9'">ABBABA</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-emit-EAN-character-patterns">
+		<xsl:param name="value"/>
+		<xsl:param name="pattern"/>
+		<xsl:if test="string-length($pattern) &gt; 0">
+			<xsl:call-template name="codeEAN-process-single-digit-EAN">
+				<xsl:with-param name="digit" select="substring($value, 1,1)"/>
+				<xsl:with-param name="pattern-type" select="substring($pattern, 1,1)"/>
+			</xsl:call-template>
+			<xsl:call-template name="codeEAN-emit-EAN-character-patterns">
+				<xsl:with-param name="value" select="substring($value, 2)"/>
+				<xsl:with-param name="pattern" select="substring($pattern, 2)"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="codeEAN-process-single-digit-EAN">
+		<xsl:param name="digit"/>
+		<xsl:param name="pattern-type"/>
+		<xsl:choose>
+			<xsl:when test="$pattern-type = 'B'">
+				<xsl:call-template name="codeEAN-digit-B">
+					<xsl:with-param name="digit" select="$digit"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="codeEAN-digit-A">
+					<xsl:with-param name="digit" select="$digit"/>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-digit-A">
+		<xsl:param name="digit"/>
+		<xsl:choose>
+			<xsl:when test="$digit='0'">3211</xsl:when>
+			<xsl:when test="$digit='1'">2221</xsl:when>
+			<xsl:when test="$digit='2'">2122</xsl:when>
+			<xsl:when test="$digit='3'">1411</xsl:when>
+			<xsl:when test="$digit='4'">1132</xsl:when>
+			<xsl:when test="$digit='5'">1231</xsl:when>
+			<xsl:when test="$digit='6'">1114</xsl:when>
+			<xsl:when test="$digit='7'">1312</xsl:when>
+			<xsl:when test="$digit='8'">1213</xsl:when>
+			<xsl:when test="$digit='9'">3112</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>3211</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-digit-B">
+		<xsl:param name="digit"/>
+		<xsl:choose>
+			<xsl:when test="$digit='0'">1123</xsl:when>
+			<xsl:when test="$digit='1'">1222</xsl:when>
+			<xsl:when test="$digit='2'">2212</xsl:when>
+			<xsl:when test="$digit='3'">1141</xsl:when>
+			<xsl:when test="$digit='4'">2311</xsl:when>
+			<xsl:when test="$digit='5'">1321</xsl:when>
+			<xsl:when test="$digit='6'">4111</xsl:when>
+			<xsl:when test="$digit='7'">2131</xsl:when>
+			<xsl:when test="$digit='8'">3121</xsl:when>
+			<xsl:when test="$digit='9'">2113</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>1123</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-convert-height-to-module-units">
+		<xsl:param name="module-numeric-value"/>
+		<xsl:param name="module-unit"/>
+		<xsl:param name="height"/>
+		<xsl:variable name="height-numeric-value" select="translate ($height, 'ptxcinme ', '')"/>
+		<xsl:variable name="height-unit" select="translate ($height, '-0123456789. ', '')"/>
+		<xsl:choose>
+			<xsl:when test="$module-unit = $height-unit">
+				<xsl:value-of select="$height-numeric-value div $module-numeric-value"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:variable name="module-scale-factor">
+					<xsl:call-template name="codeEAN-get-unit-scaling-factor">
+						<xsl:with-param name="unit" select="$module-unit"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:variable name="height-scale-factor">
+					<xsl:call-template name="codeEAN-get-unit-scaling-factor">
+						<xsl:with-param name="unit" select="$height-unit"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:value-of select=" ($height-numeric-value * $height-scale-factor) div
+                             ($module-numeric-value * $module-scale-factor)"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-convert-to-basic-units">
+		<xsl:param name="length"/>
+		<xsl:variable name="length-numeric-value" select="translate ($length, 'ptxcinme ', '')"/>
+		<xsl:variable name="length-unit" select="translate ($length, '-0123456789. ', '')"/>
+		<xsl:variable name="length-scale-factor">
+			<xsl:call-template name="codeEAN-get-unit-scaling-factor">
+				<xsl:with-param name="unit" select="$length-unit"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:value-of select="round($length-numeric-value * $length-scale-factor)"/>
+	</xsl:template>
+	<xsl:template name="codeEAN-get-unit-scaling-factor">
+		<xsl:param name="unit"/>
+		<xsl:choose>
+			<xsl:when test="$unit = 'cm'">3600</xsl:when>
+			<xsl:when test="$unit = 'mm'">360</xsl:when>
+			<xsl:when test="$unit = 'in'">9144</xsl:when>
+			<xsl:when test="$unit = 'pt'">127</xsl:when>
+			<xsl:when test="$unit = 'pc'">1524</xsl:when>
+			<xsl:when test="$unit = 'em'">
+				<xsl:text>1524</xsl:text>
+			</xsl:when>
+			<xsl:when test="$unit = 'ex'">
+				<xsl:text>700</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>360</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="codeEAN-draw-barcode-EAN">
+		<xsl:param name="module"/>
+		<xsl:param name="unit"/>
+		<xsl:param name="height"/>
+		<xsl:param name="bar-and-space-widths"/>
+		<xsl:param name="bar-heights"/>
+		<xsl:param name="first-digit"/>
+		<xsl:param name="last-digit"/>
+		<xsl:param name="left-digits"/>
+		<xsl:param name="right-digits"/>
+		<xsl:param name="leading-guards-width"/>
+		<xsl:param name="trailing-guards-width"/>
+		<xsl:param name="center-guards-width"/>
+		<xsl:param name="left-short-bars-width"/>
+		<xsl:param name="right-short-bars-width"/>
+		<xsl:param name="short-bars-in-group"/>
+		<xsl:param name="barcode-type"/>
+		<xsl:param name="text-color" select="'black'"/>
+		<xsl:param name="barcode-color" select="'black'"/>
+		<xsl:param name="font-height" select="8.4"/>
+		<xsl:param name="font-family" select="'Arial'"/>
+		<xsl:param name="font-weight" select="'normal'"/>
+		<xsl:param name="font-style" select="'normal'"/>
+		<xsl:param name="text-block" select="'0'"/>
+		<xsl:param name="text-char-space" select="'0'"/>
+		<xsl:param name="quiet-horizontal" select="'0'"/>
+		<xsl:param name="quiet-vertical" select="'0'"/>
+		<xsl:param name="orientation" select="'0'"/>
+		<xsl:variable name="first-digit-width" select="$font-height * string-length($first-digit)"/>
+		<xsl:variable name="last-digit-width" select="$font-height * string-length($last-digit)"/>
+		<xsl:variable name="start-left-side-digits" select="$first-digit-width + $leading-guards-width"/>
+		<xsl:variable name="start-right-side-digits" select="$start-left-side-digits + $left-short-bars-width + $center-guards-width"/>
+		<xsl:variable name="start-last-digit" select="$start-right-side-digits + $right-short-bars-width + $trailing-guards-width"/>
+		<xsl:variable name="total-width" select="$start-last-digit + $last-digit-width"/>
+		<xsl:variable name="area-width-real" select="($total-width + 2 * $quiet-horizontal) * $module"/>
+		<xsl:variable name="area-height-real" select="($height + $font-height + 2 + $text-block + $quiet-vertical * 2) * $module"/>
+		<xsl:variable name="code39-pi" select="3.141592653589793 div 180"/>
+		<xsl:variable name="area-width-real-transform">
+			<xsl:value-of select="((math:abs(math:cos($orientation  * $code39-pi)) * ($area-width-real div 2)) 
+						  + (math:abs(math:sin($orientation  * $code39-pi)) * ($area-height-real div 2))) * 2"/>
+		</xsl:variable>
+		<xsl:variable name="area-height-real-transform">
+			<xsl:value-of select="((math:abs(math:sin($orientation * $code39-pi)) * ($area-width-real div 2)) 
+						  + (math:abs(math:cos($orientation * $code39-pi)) * ($area-height-real div 2))) * 2"/>
+		</xsl:variable>
+		<xsl:variable name="area-x-transform">
+			<xsl:value-of select="- math:sin($orientation * $code39-pi) * (($area-height-real-transform - $area-height-real) div 2) + math:cos($orientation * $code39-pi) * (($area-width-real-transform - $area-width-real) div 2)"/>
+		</xsl:variable>
+		<xsl:variable name="area-y-transform">
+			<xsl:value-of select="math:cos($orientation * $code39-pi) * (($area-height-real-transform - $area-height-real) div 2) + math:sin($orientation * $code39-pi) * (($area-width-real-transform - $area-width-real) div 2)"/>
+		</xsl:variable>
+		<xsl:variable name="area-transform-string">
+			<xsl:value-of select="concat('rotate(', - $orientation, ' ', $area-width-real div 2, ' ', $area-height-real div 2, ') translate(', $area-x-transform, ' ', $area-y-transform, ')')"/>
+		</xsl:variable>
+		<svg:svg width="{concat($area-width-real-transform div 360, 'mm')}" height="{concat($area-height-real-transform div 360, 'mm')}" viewBox="{concat('0 0 ', $area-width-real-transform, ' ', $area-height-real-transform)}">
+			<desc>
+				<barcode value="{$first-digit}{$left-digits}{$right-digits}{$last-digit}" type="{$barcode-type}"/>
+			</desc>
+			<svg:g transform="{$area-transform-string}">
+				<xsl:call-template name="codeEAN-draw-bars">
+					<xsl:with-param name="bar-and-space-widths" select="$bar-and-space-widths"/>
+					<xsl:with-param name="bar-heights" select="$bar-heights"/>
+					<xsl:with-param name="short-bar" select="$height"/>
+					<xsl:with-param name="long-bar" select="$height + ($font-height div 2)"/>
+					<xsl:with-param name="module" select="$module"/>
+					<xsl:with-param name="unit" select="$unit"/>
+					<xsl:with-param name="barcode-color" select="$barcode-color"/>
+					<xsl:with-param name="offset" select="$first-digit-width"/>
+					<xsl:with-param name="quiet-vertical" select="$quiet-vertical"/>
+					<xsl:with-param name="quiet-horizontal" select="$quiet-horizontal"/>
+				</xsl:call-template>
+				<xsl:variable name="font-style-text" select="concat('font-size: ', $font-height * $module , $unit,
+                                 '; font-family: ', $font-family,'; font-weight: ', $font-weight,
+                                 '; fill: ',$text-color,'; font-style: ',$font-style,';')"/>
+				<xsl:variable name="vertical-offset" select="concat(($height + $font-height + $text-block + $quiet-vertical) * $module, $unit)"/>
+				<xsl:if test="$first-digit">
+					<svg:text x="{($first-digit-width - 1 + $quiet-horizontal) * $module}{$unit}" y="{$vertical-offset}" style="{$font-style-text} text-anchor: end;">
+						<xsl:value-of select="$first-digit"/>
+					</svg:text>
+				</xsl:if>
+				<xsl:if test="$left-digits">
+					<svg:text x="{($start-left-side-digits + ( $left-short-bars-width div 2 ) + $quiet-horizontal) * $module}{$unit}" y="{$vertical-offset}" style="{$font-style-text} text-anchor: middle;">
+						<svg:tspan letter-spacing="{$text-char-space * $module}">
+							<xsl:value-of select="$left-digits"/>
+						</svg:tspan>
+					</svg:text>
+				</xsl:if>
+				<xsl:if test="$right-digits">
+					<svg:text x="{($start-right-side-digits + ( $right-short-bars-width div 2 ) + $quiet-horizontal) * $module}{$unit}" y="{$vertical-offset}" style="{$font-style-text} text-anchor: middle;">
+						<svg:tspan letter-spacing="{$text-char-space * $module}">
+							<xsl:value-of select="$right-digits"/>
+						</svg:tspan>
+					</svg:text>
+				</xsl:if>
+				<xsl:if test="$last-digit">
+					<svg:text x="{($start-last-digit + 1 + $quiet-horizontal) * $module}{$unit}" y="{$vertical-offset}" style="{$font-style-text} text-anchor: start;">
+						<xsl:value-of select="$last-digit"/>
+					</svg:text>
+				</xsl:if>
+			</svg:g>
+		</svg:svg>
+	</xsl:template>
+	<xsl:template name="codeEAN-draw-bars">
+		<xsl:param name="bar-and-space-widths"/>
+		<xsl:param name="bar-heights"/>
+		<xsl:param name="short-bar"/>
+		<xsl:param name="long-bar"/>
+		<xsl:param name="module"/>
+		<xsl:param name="unit"/>
+		<xsl:param name="offset"/>
+		<xsl:param name="barcode-color"/>
+		<xsl:param name="quiet-vertical"/>
+		<xsl:param name="quiet-horizontal"/>
+		<xsl:variable name="bar-length">
+			<xsl:choose>
+				<xsl:when test="substring($bar-heights, 1, 1) = '|'">
+					<xsl:value-of select="$long-bar"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$short-bar"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<svg:rect y="{$quiet-vertical * $module}{$unit}" height="{$bar-length * $module}{$unit}" x="{($offset + $quiet-horizontal) * $module}{$unit}" width="{substring($bar-and-space-widths, 1, 1) * $module}{$unit}" style="fill: {$barcode-color};"/>
+		<xsl:if test="substring($bar-and-space-widths, 3)">
+			<xsl:call-template name="codeEAN-draw-bars">
+				<xsl:with-param name="bar-and-space-widths" select="substring($bar-and-space-widths, 3)"/>
+				<xsl:with-param name="bar-heights" select="substring($bar-heights, 2)"/>
+				<xsl:with-param name="short-bar" select="$short-bar"/>
+				<xsl:with-param name="long-bar" select="$long-bar"/>
+				<xsl:with-param name="module" select="$module"/>
+				<xsl:with-param name="unit" select="$unit"/>
+				<xsl:with-param name="barcode-color" select="$barcode-color"/>
+				<xsl:with-param name="offset" select="$offset
+                                          + substring($bar-and-space-widths, 1, 1)
+                                          + substring($bar-and-space-widths, 2, 1)"/>
+				<xsl:with-param name="quiet-vertical" select="$quiet-vertical"/>
+				<xsl:with-param name="quiet-horizontal" select="$quiet-horizontal"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="codeEAN-draw-error-message"/>
+

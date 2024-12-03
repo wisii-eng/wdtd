@@ -1,0 +1,156 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ * Copyright (c) 2005-2009 Flamingo Kirill Grouchnikov. All Rights Reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ *  o Redistributions of source code must retain the above copyright notice, 
+ *    this list of conditions and the following disclaimer. 
+ *     
+ *  o Redistributions in binary form must reproduce the above copyright notice, 
+ *    this list of conditions and the following disclaimer in the documentation 
+ *    and/or other materials provided with the distribution. 
+ *     
+ *  o Neither the name of Flamingo Kirill Grouchnikov nor the names of 
+ *    its contributors may be used to endorse or promote products derived 
+ *    from this software without specific prior written permission. 
+ *     
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR 
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ */
+
+package org.jvnet.flamingo.ribbon;
+
+import java.awt.event.ActionListener;
+
+import org.jvnet.flamingo.common.JCommandButton.CommandButtonKind;
+import org.jvnet.flamingo.common.icon.ResizableIcon;
+
+import com.wisii.wisedoc.view.action.BaseAction;
+
+public abstract class RibbonApplicationMenuEntry
+{
+
+	protected ResizableIcon icon;
+
+	protected String text;
+
+	protected ActionListener mainActionListener;
+
+	protected CommandButtonKind entryKind;
+
+	protected boolean isEnabled;
+
+	protected String actionKeyTip;
+
+	protected String popupKeyTip;
+
+	/**
+	 * @param icon
+	 *            The icon of this menu entry. Must be non-<code>null</code>.
+	 * @param text
+	 *            The text of this menu entry. Must be non-<code>null</code>.
+	 * @param mainActionListener
+	 *            The main action listener for this menu entry. If the entry
+	 *            kind is {@link CommandButtonKind#POPUP_ONLY}, this listener
+	 *            will be ignored.
+	 * @param entryKind
+	 *            The operation kind of the menu entry. Must be non-
+	 *            <code>null</code>.
+	 */
+	public RibbonApplicationMenuEntry(ResizableIcon icon, String text,
+			ActionListener mainActionListener, CommandButtonKind entryKind)
+	{
+		super();
+		this.icon = icon;
+		this.text = text;
+		this.mainActionListener = mainActionListener;
+		this.entryKind = entryKind;
+		this.isEnabled = true;
+	}
+
+	public ResizableIcon getIcon()
+	{
+		return icon;
+	}
+
+	public String getText()
+	{
+		return text;
+	}
+
+	public ActionListener getMainActionListener()
+	{
+		return mainActionListener;
+	}
+
+	public CommandButtonKind getEntryKind()
+	{
+		return entryKind;
+	}
+
+	public void setEnabled(boolean isEnabled)
+	{
+		this.isEnabled = isEnabled;
+	}
+
+	public boolean isEnabled()
+	{
+		ActionListener basz = this.getMainActionListener();
+		if (basz instanceof BaseAction)
+		{
+			return ((BaseAction) basz).isAvailable();
+		}
+		return isEnabled;
+	}
+
+	public void setText(String text)
+	{
+		this.text = text;
+	}
+
+	public String getActionKeyTip()
+	{
+		return actionKeyTip;
+	}
+
+	public void setActionKeyTip(String actionKeyTip)
+	{
+		this.actionKeyTip = actionKeyTip;
+	}
+
+	public String getPopupKeyTip()
+	{
+		return popupKeyTip;
+	}
+
+	public void setPopupKeyTip(String popupKeyTip)
+	{
+		this.popupKeyTip = popupKeyTip;
+	}
+}

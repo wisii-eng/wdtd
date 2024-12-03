@@ -1,0 +1,16 @@
+<xsl:template name="sH02">
+	<xsl:param name="data"/>
+	<xsl:variable name="realDate">
+		<xsl:choose>
+			<xsl:when test="string-length($data)=2 and substring($data,1,1)=0">
+				<xsl:value-of select="substring($data,2,1)"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$data"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:call-template name="tsu02">
+		<xsl:with-param name="number" select="$realDate"/>
+	</xsl:call-template>
+</xsl:template>

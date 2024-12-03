@@ -1,0 +1,17 @@
+<numbers>
+	<number chineserenmingbi="零" value="0">0</number>
+	<number chineserenmingbi="壹" value="1">1</number>
+	<number chineserenmingbi="贰" value="2">2</number>
+	<number chineserenmingbi="叁" value="3">3</number>
+	<number chineserenmingbi="肆" value="4">4</number>
+	<number chineserenmingbi="伍" value="5">5</number>
+	<number chineserenmingbi="陆" value="6">6</number>
+	<number chineserenmingbi="柒" value="7">7</number>
+	<number chineserenmingbi="捌" value="8">8</number>
+	<number chineserenmingbi="玖" value="9">9</number>
+	<number chineserenmingbi="拾" value="10">10</number>
+	<number chineserenmingbi="佰" value="100">100</number>
+	<number chineserenmingbi="仟" value="1000">1000</number>
+	<number chineserenmingbi="万" value="10000">10000</number>
+	<number chineserenmingbi="亿" value="100000000">100000000</number>
+</numbers>

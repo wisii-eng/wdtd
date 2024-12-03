@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wisedoc>
+<charsitem title ="unitsymbol" chars = "°′″＄￥〒￠￡％＠℃℉﹩﹪‰﹫㏕㎜㎝㎞㏎㎡㎎㎏㏄°○¤"/>
+<charsitem title ="punctuationsymbol" chars = "，、。．；：？！︰…‥′‵々～‖ˇˉ﹐﹑﹒•﹔﹕﹖﹗｜–︱—︳︴﹏（）︵︶｛｝︷︸〔〕︹︺【】︻︼《》︽︾〈〉︿﹀「」﹁﹂『』﹃﹄﹙﹚﹛﹜﹝﹞‘’“”〝〞ˋˊ"/>
+<charsitem title ="numbersymbol" chars = "ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇①②③④⑤⑥⑦⑧⑨⑩㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩"/>
+<charsitem title ="mathsymbol" chars = "≈≡≠＝≤≥＜＞≮≯∷±＋－×÷／∫∮∝∞∧∨∑∏∪∩∈∵∴⊥∥∠⌒⊙≌∽√≦≧≒≡﹢﹣﹤﹥﹦～∟⊿㏒㏑"/>
+<charsitem title ="specialsymbol" chars = "＃＠＆＊※§〃№〓○●△▲◎☆★◇◆□■▽▼㊣℅ˉ￣＿﹉﹊﹍﹎﹋﹌﹟﹠﹡♀♂⊕⊙↑↓←→↖↗↙↘∥∣／＼∕﹨"/>
+<charsitem title ="pinyinsymbol" chars = "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňɡ"/>
+</wisedoc>

@@ -1,0 +1,9 @@
+<xsl:template name="ts04">
+	<xsl:param name="number"/>
+	<xsl:if test="string-length($number)&gt;0">
+		<xsl:value-of select="$num/fov:numbers/number[@value=substring($number,1,1)]/@chineserenmingbi"/>
+		<xsl:call-template name="ts04">
+			<xsl:with-param name="number" select="substring($number,2)"/>
+		</xsl:call-template>
+	</xsl:if>
+</xsl:template>

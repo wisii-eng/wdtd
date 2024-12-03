@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wisedoctoolbar xmlns:fo="http://www.w3.org/1999/XSL/Format">
+	<toolbar floatable="yes" name="wisedoc.toolbar.title.general" Location="Top">
+		<item name="" icon="New.gif" tooltip="wisedoc.menu.file.new" action=""/>
+		<item name="" icon="Open.gif" tooltip="wisedoc.menu.file.open" action=""/>
+		<item name="" icon="Save.gif" tooltip="wisedoc.menu.file.save" action=""/>
+		<item name="" icon="SaveAs.gif" tooltip="wisedoc.menu.file.saveas" action=""/>
+		<separator/>
+		<item name="" icon="Browse.gif" tooltip="wisedoc.menu.file.view" action=""/>
+		<item name="" icon="Print.gif" tooltip="wisedoc.menu.file.print" action=""/>
+		<item name="" icon="Export16.gif" tooltip="wisedoc.menu.file.explortfile" action=""/>
+		<separator/>
+		<item name="" icon="Undo.gif" tooltip="wisedoc.menu.edit.undo" action=""/>
+		<item name="" icon="Redo.gif" tooltip="wisedoc.menu.edit.redo" action=""/>
+		<item name="" icon="Cut.gif" tooltip="wisedoc.menu.edit.cut" action=""/>
+		<item name="" icon="Copy.gif" tooltip="wisedoc.menu.edit.copy" action=""/>
+		<item name="" icon="Paste.gif" tooltip="wisedoc.menu.edit.paste" action=""/>
+		<item name="" icon="Delete.gif" tooltip="wisedoc.menu.edit.delete" action=""/>
+		<separator/>
+		<item name="" icon="Grid.gif" tooltip="wisedoc.menu.view.grid.showgrid" action=""/>
+		<item name="" icon="GridWidth.gif" tooltip="wisedoc.menu.view.grid.duiqigrid" action=""/>
+		<separator/>
+		<item name="" icon="ZoomIn.gif" tooltip="wisedoc.menu.view.zoomin" action=""/>
+		<item name="" icon="ZoomOut.gif" tooltip="wisedoc.menu.view.zoomout" action=""/>
+		<item name="" icon="Zoom.gif" tooltip="wisedoc.menu.view.zoomreset" action=""/>
+		<separator/>
+		<item name="" icon="TextFlow.gif" tooltip="wisedoc.menu.insert.text" action=""/>
+		<item name="" icon="FormattedNumber.gif" tooltip="wisedoc.menu.insert.numbertext" action=""/>
+		<item name="" icon="DateTime.gif" tooltip="wisedoc.menu.insert.datetime" action=""/>
+		<item name="" icon="InternetLink.gif" tooltip="wisedoc.menu.insert.link" action=""/>
+		<item name="" icon="Barcode.gif" tooltip="wisedoc.menu.insert.barcode" action=""/>
+		<item name="" icon="List.gif" tooltip="wisedoc.menu.insert.list" action=""/>
+		<item name="" icon="Image.gif" tooltip="wisedoc.menu.insert.image" action=""/>
+		<item name="" icon="PageNumber.gif" tooltip="wisedoc.menu.insert.pagenumber" action=""/>
+		<item name="" icon="Table.gif" tooltip="wisedoc.menu.insert.table" action=""/>
+		<item name="" icon="Line.gif" tooltip="wisedoc.menu.insert.line" action=""/>
+		<item name="" icon="Figure.gif" tooltip="wisedoc.menu.insert.figure" action=""/>
+		<separator/>
+		<item name="" icon="Font.gif" tooltip="wisedoc.menu.format.font" action=""/>
+		<item name="" icon="Paragrap.gif" tooltip="wisedoc.popupmenu.text.paragraph" action=""/>
+		<item name="" icon="Bold.gif" tooltip="wisedoc.menu.format.bold" action=""/>
+		<item name="" icon="Italic.gif" tooltip="wisedoc.menu.format.italic" action=""/>
+		<item name="" icon="Wizard16.gif" tooltip="wsd.view.gui.text.font.underline" action=""/>
+		<separator/>
+		<item name="" icon="AlignLeft.gif" tooltip="wisedoc.menu.format.alignleft" action=""/>
+		<item name="" icon="AlignCenter.gif" tooltip="wisedoc.menu.format.aligncenter" action=""/>
+		<item name="" icon="AlignRight.gif" tooltip="wisedoc.menu.format.alignright" action=""/>
+		<item name="" icon="Padding16.gif" tooltip="wisedoc.menu.format.alignjustify" action=""/>
+		<separator/>
+		<item name="" icon="AlignTop.gif" tooltip="wisedoc.menu.format.aligntop" action=""/>
+		<item name="" icon="AlignMiddle.gif" tooltip="wisedoc.menu.format.alignmiddle" action=""/>
+		<item name="" icon="AlignBottom.gif" tooltip="wisedoc.menu.format.alignbottom" action=""/>
+		<separator/>
+		<item name="" icon="DelGroupProperty.gif" tooltip="wisedoc.menu.format.alignbefore" action=""/>
+		<item name="" icon="editCellBorder.gif" tooltip="wisedoc.menu.format.aligncentral" action=""/>
+		<item name="" icon="delTableRow.gif" tooltip="wisedoc.menu.format.alignafter" action=""/>
+		<separator/>
+		<item name="" icon="Preferences16.gif" tooltip="wisedoc.menu.format.lineheight" action=""/>
+		<item name="" icon="List.gif" tooltip="wisedoc.menu.format.id" action=""/>
+		<item name="" icon="OneTouchRightWin.gif" tooltip="wisedoc.menu.format.addmargin" action=""/>
+		<item name="" icon="OneTouchLeftWin.gif" tooltip="wisedoc.menu.format.deletemargin" action=""/>
+		<separator/>
+		<item name="" icon="GroupProperty.gif" tooltip="wisedoc.menu.windows.groupproperty" action=""/>
+		<item name="" icon="DelGroupProperty.gif" tooltip="wisedoc.menu.windows.delgroupproperty" action=""/>
+		<item name="" icon="SameSpaceH.gif" tooltip="wisedoc.menu.format.samespaceh" action=""/>
+		<item name="" icon="SameSpaceV.gif" tooltip="wisedoc.menu.format.samespacev" action=""/>
+		<item name="" icon="SameWidth.gif" tooltip="wisedoc.menu.format.samewidth" action=""/>
+		<item name="" icon="SameHeight.gif" tooltip="wisedoc.menu.format.sameheight" action=""/>
+		<separator/>
+		<item name="" icon="Plain16.gif" tooltip="wisedoc.menu.font.color" action=""/>
+		<item name="" icon="Next.gif" tooltip="wisedoc.menu.insert.specialsymbols" action=""/>
+	</toolbar>
+</wisedoctoolbar>

@@ -1,0 +1,9 @@
+<xsl:template name="sD21">
+	<xsl:param name="data"/>
+	<xsl:if test="string-length($data)=2">
+		<xsl:value-of select="$data"/>
+	</xsl:if>
+	<xsl:if test="string-length($data)=1">
+		<xsl:value-of select="concat('0',$data)"/>
+	</xsl:if>
+</xsl:template>

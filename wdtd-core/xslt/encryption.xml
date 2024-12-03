@@ -1,0 +1,53 @@
+<xsl:template name="encryption">
+		<xsl:param name="data"/>
+		<xsl:param name="type" select="1"/>
+		<xsl:choose>
+			<xsl:when test="$type='1'">
+				<xsl:call-template name="encryptionone">
+					<xsl:with-param name="data" select="$data"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$type='2'">
+				<xsl:call-template name="encryptiontwo">
+					<xsl:with-param name="data" select="$data"/>
+				</xsl:call-template>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="encryptionone">
+		<xsl:param name="data"/>
+		<xsl:param name="length" select="string-length($data)"/>
+		<xsl:if test="$length &gt; 0">
+			<xsl:variable name="last" select="substring($data,$length,1)"/>
+			<xsl:value-of select="$last"/>
+			<xsl:call-template name="encryptionone">
+				<xsl:with-param name="data" select="substring($data,1,$length - 1)"/>
+				<xsl:with-param name="length" select="$length -1"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template name="encryptiontwo">
+		<xsl:param name="data"/>
+		<xsl:param name="shuzi" select="'012345678901'"/>
+		<xsl:param name="zimu" select="'abcdefghijklmnopqrstuvwxyzabABCDEFGHIJKLMNOPQRSTUVWXYZAB'"/>
+		<xsl:if test="string-length($data) &gt;0">
+			<xsl:variable name="current" select="substring($data,1,1)"/>
+			<xsl:choose>
+				<xsl:when test="contains($shuzi,$current)">
+					<xsl:variable name="after" select="substring-after($shuzi,$current)"/>
+					<xsl:value-of select="substring($after,1,2)"/>
+				</xsl:when>
+				<xsl:when test="contains($zimu,$current)">
+					<xsl:variable name="after" select="substring-after($zimu,$current)"/>
+					<xsl:value-of select="substring($after,1,2)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:variable name="length" select="string-length($data) mod 10"/>
+					<xsl:value-of select="substring($shuzi,length,2)"/>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:call-template name="encryptiontwo">
+				<xsl:with-param name="data" select="substring($data,2)"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>

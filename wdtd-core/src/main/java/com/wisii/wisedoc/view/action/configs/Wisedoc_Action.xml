@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wisedocactions>
+	<!--文件菜单Action-->
+	<action name="SaveFileAction" type="com.wisii.wisedoc.view.action.SaveFileAction"/>
+	<action name="OpenFileAction" type="com.wisii.wisedoc.view.action.OpenFileAction"/>
+	<!-- <action name="NewFileAction" type="com.wisii.wisedoc.view.action.NewLayoutAction"/>
+	<action name="OpenHistoryAction" type="com.wisii.wisedoc.view.action.OpenHistoryAction"/>
+	<action name="SaveAsFileAction" type="com.wisii.wisedoc.view.action.SaveAsFileAction"/>
+	<action name="ExplortFileAction" type="com.wisii.wisedoc.view.action.ExplortFileAction"/>
+	<action name="PrintAction" type="com.wisii.wisedoc.view.action.PrintAction"/>
+	<action name="CloseFileAction" type="com.wisii.wisedoc.view.action.CloseFileAction"/> -->
+	<!-- action name="CloseAllFileAction" type="com.wisii.wisedoc.view.action.CloseAllFileAction"/ -->
+	<!-- <action name="ExitAction" type="com.wisii.wisedoc.view.action.ExitAction"/>-->
+	<!--编辑菜单Action-->
+	<action name="UndoAction" type="com.wisii.wisedoc.view.action.UndoAction"/>
+	<action name="RedoAction" type="com.wisii.wisedoc.view.action.RedoAction"/>
+	<action name="CopyAction" type="com.wisii.wisedoc.view.action.CopyAction"/>
+	<action name="CopyTextAction" type="com.wisii.wisedoc.view.action.CopyTextAction"/>
+	<action name="PasteAction" type="com.wisii.wisedoc.view.action.PasteAction"/>
+	<action name="CutAction" type="com.wisii.wisedoc.view.action.CutAction"/>
+	<!--action name="DeleteAction" type="com.wisii.wisedoc.view.action.DeleteAction"/>
+	<action name="SelectAllAction" type="com.wisii.wisedoc.view.action.SelectAllAction"/>
+	<action name="FindAction" type="com.wisii.wisedoc.view.action.FindAction"/>
+	<action name="PreviousAction" type="com.wisii.wisedoc.view.action.PreviousAction"/>
+	<action name="NextAction" type="com.wisii.wisedoc.view.action.NextAction"/>
+	<action name="ReplaceAction" type="com.wisii.wisedoc.view.action.ReplaceAction"/>-->
+	<!--视图菜单Action-->
+	<!--<action name="ShowGridAction" type="com.wisii.wisedoc.view.action.ShowGridAction"/>
+	<action name="ZoomInAction" type="com.wisii.wisedoc.view.action.ZoomInAction"/>
+	<action name="ZoomOutAction" type="com.wisii.wisedoc.view.action.ZoomOutAction"/>
+	<action name="ZoomResetAction" type="com.wisii.wisedoc.view.action.ZoomResetAction"/>
+	<action name="FullScreenAction" type="com.wisii.wisedoc.view.action.FullScreenAction"/>
+	<action name="ToolBarAction" type="com.wisii.wisedoc.view.action.ToolBarAction"/>-->
+	<!--页操作菜单Action-->
+	<!--<action name="AddFirstPageAction" type="com.wisii.wisedoc.view.action.AddFirstPageAction"/>
+	<action name="AddOddPageAction" type="com.wisii.wisedoc.view.action.AddOddPageAction"/>
+	<action name="AddEvenPageAction" type="com.wisii.wisedoc.view.action.AddEvenPageAction"/>
+	<action name="AddNormalPageAction" type="com.wisii.wisedoc.view.action.AddNormalPageAction"/>
+	<action name="AddLastPageAction" type="com.wisii.wisedoc.view.action.AddLastPageAction"/>
+	<action name="DeletePageAction" type="com.wisii.wisedoc.view.action.DeletePageAction"/>-->
+	<!--插入菜单Action-->
+	<action name="InsertTableAction" type="com.wisii.wisedoc.view.action.InsertTableAction"/>
+	<action name="insertImageAction" type="com.wisii.wisedoc.view.action.InsertImageAction"/>
+	<action name="InsertBarCodeAction" type="com.wisii.wisedoc.view.action.InsertBarCodeAction"/>
+	<!--<action name="TextSelectAction" type="com.wisii.wisedoc.view.action.TextSelectAction"/>
+	<action name="FigureSelectAction" type="com.wisii.wisedoc.view.action.FigureSelectAction"/>
+	<action name="NumberTextSelectAction" type="com.wisii.wisedoc.view.action.NumberTextSelectAction"/>
+	<action name="ImageSelectAction" type="com.wisii.wisedoc.view.action.ImageSelectAction"/>
+	
+	<action name="BarCodeSelectAction" type="com.wisii.wisedoc.view.action.BarCodeSelectAction"/>
+	<action name="PageNumberSelectAction" type="com.wisii.wisedoc.view.action.PageNumberSelectAction"/>-->
+	<!--action name="IndexSelectAction" type="com.wisii.wisedoc.view.action.IndexSelectAction"/-->
+	<!--<action name="LinkSelectAction" type="com.wisii.wisedoc.view.action.LinkSelectAction"/>
+	<action name="ListSelectAction" type="com.wisii.wisedoc.view.action.ListSelectAction"/>
+	<action name="DateTimeSelectAction" type="com.wisii.wisedoc.view.action.DateTimeSelectAction"/>-->
+	<!--action name="XslTextSelectAction" type="com.wisii.wisedoc.view.action.XslTextSelectAction"/-->
+	<!--action name="TemplateCallingSelectAction" type="com.wisii.wisedoc.view.action.TemplateCallingSelectAction"/-->
+	<!--<action name="LineSelectAction" type="com.wisii.wisedoc.view.action.LineSelectAction"/>-->
+	<!--action name="CitationSelectAction" type="com.wisii.wisedoc.view.action.CitationSelectAction"/-->
+	<!--格式Action  -->
+	<!--字体属性设置Action-->
+	<!--<action name="TextFontAction" type="com.wisii.wisedoc.view.action.TextFontAction"/>-->
+	<!--字体颜色设置Action-->
+	<!--<action name="TextColorAction" type="com.wisii.wisedoc.view.action.TextColorAction"/>-->
+	<!--行间距设置Action-->
+	<!-- action name="TextLineSpaceAction" type="com.wisii.wisedoc.view.action.TextLineSpaceAction"/-->
+	<!--粗体属性设置Action-->
+	<!--<action name="TextBoldAction" type="com.wisii.wisedoc.view.action.TextBoldAction"/>-->
+	<!--斜体体属性设置Action-->
+	<!--<action name="TextItalicAction" type="com.wisii.wisedoc.view.action.TextItalicAction"/>-->
+	<!--段落属性设置Action-->
+	<!--<action name="TextParagraphAction" type="com.wisii.wisedoc.view.action.TextParagraphAction"/>-->
+	<!--边框属性Action-->
+	<!--<action name="BorderAction" type="com.wisii.wisedoc.view.action.BorderAction"/>-->
+	<!--背景颜色属性Action-->
+	<!--<action name="BackGroundColorAction" type="com.wisii.wisedoc.view.action.BackGroundColorAction"/>-->
+	<!--排版类Action  -->
+	<!--action name="LayerForwardAction" type="com.wisii.wisedoc.view.action.LayerForwardAction"/-->
+	<!--action name="LayerBackwardAction" type="com.wisii.wisedoc.view.action.LayerBackwardAction"/-->
+	<!--action name="LayerSetAction" type="com.wisii.wisedoc.view.action.LayerSetAction"/-->
+	<!--<action name="AlignLeftAction" type="com.wisii.wisedoc.view.action.format.AlignLeftAction"/>
+	<action name="AlignCenterAction" type="com.wisii.wisedoc.view.action.format.AlignCenterAction"/>
+	<action name="AlignRightAction" type="com.wisii.wisedoc.view.action.format.AlignRightAction"/>
+	<action name="AlignTopAction" type="com.wisii.wisedoc.view.action.format.AlignTopAction"/>
+	<action name="AlignMiddleAction" type="com.wisii.wisedoc.view.action.format.AlignMiddleAction"/>
+	<action name="AlignBottomAction" type="com.wisii.wisedoc.view.action.format.AlignBottomAction"/>
+	<action name="SameWidthAction" type="com.wisii.wisedoc.view.action.format.SameWidthAction"/>
+	<action name="SameHeightAction" type="com.wisii.wisedoc.view.action.format.SameHeightAction"/>
+	<action name="SameSpaceHAction" type="com.wisii.wisedoc.view.action.format.SameSpaceHAction"/>
+	<action name="SameSpaceVAction" type="com.wisii.wisedoc.view.action.format.SameSpaceVAction"/>-->
+	<!--action name="LayerToFrontAction" type="com.wisii.wisedoc.view.action.LayerToFrontAction"/-->
+	<!--action name="LayerToBackAction" type="com.wisii.wisedoc.view.action.LayerToBackAction"/-->
+	<!--Group菜单Action-->
+	<!--<action name="GroupAction" type="com.wisii.wisedoc.view.action.GroupAction"/>
+	<action name="GroupUngroupAction" type="com.wisii.wisedoc.view.action.GroupUngroupAction"/>
+	<action name="SetGroupPropertyAction" type="com.wisii.wisedoc.view.action.SetGroupPropertyAction"/>
+	<action name="RemoveGroupPropertyAction" type="com.wisii.wisedoc.view.action.RemoveGroupPropertyAction"/>-->
+	<!--工具菜单Action-->
+	<!--<action name="DocumentSetAction" type="com.wisii.wisedoc.view.action.DocumentSetAction"/>-->
+	<!--预览Action-->
+	<!--<action name="BrowseAction" type="com.wisii.wisedoc.view.action.BrowseAction"/>-->
+	<!--导出模版文件-->
+	<action name="ExplortXSLTFileAction" type="com.wisii.wisedoc.view.action.ExplortXSLTFileAction"/>
+	<!--导出页模版为模板文件-->
+	<!--<action name="ExplortPageTemplateAction" type="com.wisii.wisedoc.view.action.ExplortPageTemplateAction"/>-->
+	<!--PDF文件生成功能项-->
+	<!--action name="PDFGenerateAction" type="com.wisii.wisedoc.view.action.PDFGenerateAction"/-->
+	<!--选项设置功能项-->
+	<!--<action name="OptionSetAction" type="com.wisii.wisedoc.view.action.OptionSetAction"/>-->
+	<!--排版类Action  -->
+	<!--<action name="HelpAction" type="com.wisii.wisedoc.view.action.HelpAction"/>
+	<action name="ContactAction" type="com.wisii.wisedoc.view.action.ContactAction"/>
+	<action name="AboutAction" type="com.wisii.wisedoc.view.action.AboutAction"/>-->
+	<!--编辑权限用Action  -->
+	<!--<action name="EditModeAction" type="com.wisii.wisedoc.view.action.EditModeAction"/>-->
+	<!--文本对象空数据设置Action  -->
+	<!--<action name="EmptyDataAction" type="com.wisii.wisedoc.view.action.EmptyDataAction"/>-->
+	<!--光标导航相关的Action  -->
+	<action name="PreviousDocumentPositionAction" type="com.wisii.wisedoc.view.action.PreviousDocumentPositionAction"/>
+	<action name="NextDocumentPositionAction" type="com.wisii.wisedoc.view.action.NextDocumentPositionAction"/>
+	<action name="PreviousMoveSelectAction" type="com.wisii.wisedoc.view.action.PreviousMoveSelectAction"/>
+	<action name="NextMoveSelectAction" type="com.wisii.wisedoc.view.action.NextMoveSelectAction"/>
+</wisedocactions>
